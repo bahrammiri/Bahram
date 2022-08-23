@@ -36,6 +36,7 @@ class BriefAdapter(var context: Context, var brieflist: ArrayList<Final>?) : Rec
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderOne {
 
+
         val view1 =
             LayoutInflater.from(parent.context).inflate(R.layout.item_view_brief, parent, false)
         return ViewHolderOne(view1)
