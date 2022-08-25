@@ -1,10 +1,8 @@
 package com.bahram.weather7
 
-import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -12,15 +10,14 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.RelativeLayout
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bahram.weather7.adapter.BriefAdapter
+import com.bahram.weather7.model.*
 import com.bahram.weather7.retrofit.Constants
 import com.bahram.weather7.retrofit.RetrofitService
-import com.bahram.weather7.model.*
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import retrofit2.Call
@@ -28,71 +25,62 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
+    lateinit var sharedResponse: SharedPreferences
+    lateinit var sharedFinal: SharedPreferences
 
-    lateinit var sharedTemporaryCityName: SharedPreferences
-    lateinit var sharedArrayListSelected: SharedPreferences
+    lateinit var cityNameInputted: String
+    lateinit var cities: List<String>
 
     lateinit var frameLayout: FrameLayout
     lateinit var relativeLayout: RelativeLayout
     lateinit var editTextCityName: EditText
     lateinit var recyclerViewBrief: RecyclerView
 
-    var selectedList: ArrayList<Final>? = ArrayList<Final>()
-    var selectedList2: ArrayList<Final>? = ArrayList<Final>()
-    var selectedListFromShared: ArrayList<Final>? = ArrayList<Final>()
+    var itemsCityForPreview = arrayListOf<Item>()
+    var itemsCity = arrayListOf<Item>()
+    var selectedListFinal: ArrayList<Final>? = null
 
     lateinit var briefAdapter: BriefAdapter
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        sharedTemporaryCityName = getSharedPreferences("Shared City Name", MODE_PRIVATE)
-        var editorCity = sharedTemporaryCityName.edit()
-
-        sharedArrayListSelected = getSharedPreferences("Shared ArrayList", MODE_PRIVATE)
 
         frameLayout = findViewById(R.id.frame_layout)
         relativeLayout = findViewById(R.id.relative_layout_main)
         editTextCityName = findViewById(R.id.edit_text_city_name)
         recyclerViewBrief = findViewById(R.id.recycler_view_selected)
 
-        var getCityNameInputted = sharedTemporaryCityName.getString("cityNameInputted", null)
+        sharedResponse = applicationContext.getSharedPreferences("sharedResponse", MODE_PRIVATE)
+        sharedFinal = applicationContext.getSharedPreferences("sharedFinal", MODE_PRIVATE)
+
         var intentCityNameSelected = intent.getStringExtra("For MainActivity: cityNameSelected")
+        Log.i("intentCityNameSelected", "$intentCityNameSelected")
 
-//        selectedListFromShared = getArrayList("selectedList")
+        cities = sharedResponse.all.map { it.key }
+        Log.i("cities", "$cities")
 
-//        Log.i("selectedListFromShared ->", "$selectedListFromShared")
+        if (cities.isNotEmpty()) {
+            selectedListFinal = getArrayList2("All cities ArrayList")
 
-//        val nnn = (intentCityNameSelected != getCityNameInputted)
-//
-//        Log.i("bb", "$nnn")
+            hhh()
+        }
 
-//        if (intentCityNameSelected != getCityNameInputted) {
-//            editorCity.clear()
-//            selectedListFromShared?.removeLast()
-//            saveArrayList("selectedList",selectedListFromShared)
-//        } else {
-//            editorCity.clear()
-//        }
-        selectedList = getArrayList("selectedList")
-
-//        Log.i("Log after the first get-> selectedList ->", "$selectedList")
-
-        recyclerViewBrief.visibility = View.VISIBLE
-        briefAdapter = BriefAdapter(this, selectedList2)
-        recyclerViewBrief.adapter = briefAdapter
-        recyclerViewBrief.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+        if (selectedListFinal != null) {
+            recyclerViewBrief.visibility = View.VISIBLE
+            briefAdapter = BriefAdapter(this, selectedListFinal)
+            recyclerViewBrief.adapter = briefAdapter
+            recyclerViewBrief.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+        }
 
         editTextCityName.setOnEditorActionListener { v, actionId, keyEvent ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
 
-                val cityNameInputted = editTextCityName.text.toString()
+                cityNameInputted = editTextCityName.text.toString()
 
-                editorCity.putString("cityNameInputted", cityNameInputted)
-                editorCity.apply()
 
-                getCityWeather(editTextCityName.text.toString())
+                getCityWeather(cityNameInputted)
 
                 val view = this.currentFocus
                 if (view != null) {
@@ -102,15 +90,32 @@ class MainActivity : AppCompatActivity() {
 
                 }
 
-
-
-
-
                 true
             } else false
         }
 
 
+    }
+
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun hhh(): ArrayList<Final>? {
+        cities.forEach {
+//            selectedListFinal = getArrayList2("All cities ArrayList")
+            var response3 = getCityResponse(it)
+
+            itemsCity.add(Item(ViewType.ONE, createHeaderList(response3)))
+            itemsCity.add(Item(ViewType.TWO, createHoursList(response3)))
+            itemsCity.add(Item(ViewType.THREE, createDaysList(response3)))
+
+            selectedListFinal?.add(Final(itemsCity))
+            saveArrayList2("All cities ArrayList", selectedListFinal)
+            itemsCity.clear()
+        }
+
+        getArrayList2("All cities ArrayList")
+        Log.i("selectedListFinal", "$selectedListFinal")
+        return selectedListFinal
     }
 
     private fun getCityWeather(city: String) {
@@ -121,7 +126,9 @@ class MainActivity : AppCompatActivity() {
 
                 val responseBody = response.body()
                 if (responseBody != null) {
-                    createSelectedList(responseBody)
+                    saveCityResponse(cityNameInputted, responseBody)
+                    var aaa = getCityResponse(cityNameInputted)
+                    createSelectedList(aaa)
 
                 }
             }
@@ -134,17 +141,14 @@ class MainActivity : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun createSelectedList(response: WeatherResponse?) {
-
-        var itemsCityForPreview = arrayListOf<Item>()
         itemsCityForPreview.add(Item(ViewType.ONE, createHeaderList(response)))
         itemsCityForPreview.add(Item(ViewType.TWO, createHoursList(response)))
         itemsCityForPreview.add(Item(ViewType.THREE, createDaysList(response)))
 
-        selectedList?.add(Final(itemsCityForPreview))
-
-        saveArrayList("selectedList", selectedList)
-        selectedList2 = getArrayList("selectedList")
-        Log.i("Log after the first get-> selectedList2 ->", "$selectedList2")
+//        selectedListFinal = getArrayList2("ttt")
+//        selectedListFinal?.add(Final(itemsCityForPreview))
+//
+//        saveArrayList2("ttt", selectedListFinal)
 
         supportActionBar?.setDisplayShowTitleEnabled(false)
         supportActionBar?.hide();
@@ -163,33 +167,59 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-//    private val selectedItemListener = BriefAdapter.OnClickListener { itemsCity ->
-//        val intent = Intent(this, ViewPagerActivity::class.java)
-//        intent.putExtra("Intent to ViewPagerActivity", itemsCity)
-//        startActivity(intent)
+    fun saveCityResponse(city: String, user: WeatherResponse) {
+        sharedResponse.edit().putString(city, Gson().toJson(user)).apply()
+    }
+
+    fun getCityResponse(city: String): WeatherResponse? {
+        val data = sharedResponse.getString(city, null)
+        if (data == null) {
+            return null
+        }
+        return Gson().fromJson(data, WeatherResponse::class.java)
+    }
+
+//    fun saveArrayList(cityInputted: String, list: ArrayList<Item>?) {
+//        val editor: SharedPreferences.Editor = sharedItemsCityForPreview.edit()
+//        val json: String = Gson().toJson(list)
+//        editor.putString(cityInputted, json)
+//        editor.apply()
+//
+//
+//        Toast.makeText(this, "$cityInputted Saved", Toast.LENGTH_LONG)
+//            .show()
+//    }
+//    fun getArrayList(cityInputted: String): ArrayList<Item>? {
+//        val json = sharedItemsCityForPreview.getString(cityInputted, null)
+//        if (json == "") return null
+//        val type = object : TypeToken<ArrayList<Item>?>() {}.type
+//        itemsCityForPreview = Gson().fromJson<ArrayList<Item>?>(json, type)
+//        if (itemsCityForPreview == null) {
+//            itemsCityForPreview = ArrayList()
+//        }
+//        return itemsCityForPreview
 //    }
 
 
-    fun saveArrayList(key: String, list: ArrayList<Final>?) {
-        val editor: SharedPreferences.Editor = sharedArrayListSelected.edit()
+    fun saveArrayList2(key: String, list: ArrayList<Final>?) {
+        val editor: SharedPreferences.Editor = sharedFinal.edit()
         val json: String = Gson().toJson(list)
         editor.putString(key, json)
         editor.apply()
-        Toast.makeText(this, "$key Saved", Toast.LENGTH_LONG)
-            .show()
+
     }
 
-
-    fun getArrayList(key: String): ArrayList<Final>? {
-        val json = sharedArrayListSelected.getString(key, null)
+    fun getArrayList2(key: String): ArrayList<Final>? {
+        val json = sharedFinal.getString(key, null)
         if (json == "") return null
         val type = object : TypeToken<ArrayList<Final>?>() {}.type
-        selectedList = Gson().fromJson<ArrayList<Final>?>(json, type)
-        if (selectedList == null) {
-            selectedList = ArrayList()
+        selectedListFinal = Gson().fromJson<ArrayList<Final>?>(json, type)
+        if (selectedListFinal == null) {
+            selectedListFinal = ArrayList()
         }
-        return selectedList
+        return selectedListFinal
     }
+
 
     fun createHeaderList(response: WeatherResponse?): Header {
         val tempCurrent = response?.list?.getOrNull(0)?.main?.temp ?: 0.0

@@ -47,7 +47,6 @@ class PreviewFragmentAdapter(var context: Context, var listPreview: ArrayList<It
 
 
     override fun getItemViewType(position: Int): Int {
-        Log.i("listadapte","$listPreview")
         val item = listPreview?.get(position)
         return item?.type?.id ?: 0
     }
@@ -100,7 +99,7 @@ class PreviewFragmentAdapter(var context: Context, var listPreview: ArrayList<It
 
                 viewHolder1.tvCancel.setOnClickListener {
                     var intent: Intent = Intent(context, MainActivity::class.java)
-                    intent.putExtra("For MainActivity: cityNameSelected", "***")
+                    intent.putExtra("For MainActivity: cityNameSelected", "")
                     viewHolder1.tvCancel.context.startActivity(intent)
                 }
 

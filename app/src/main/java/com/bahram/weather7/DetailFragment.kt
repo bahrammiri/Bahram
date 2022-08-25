@@ -45,7 +45,7 @@ class DetailFragment(var aFinal: ArrayList<Final>) : Fragment() {
 
 
         }
-//        sharedArrayListSelected = requireContext().getSharedArrayListSelected("shared preferences", MODE_PRIVATE)
+//        sharedItemsCityForPreview = requireContext().getSharedItemsCityForPreview("shared preferences", MODE_PRIVATE)
 //        var value2 = arguments?.getString("cityNameForViewPager")
 //        if (value2 != null) {
 //            getCityWeather(value2.toString())

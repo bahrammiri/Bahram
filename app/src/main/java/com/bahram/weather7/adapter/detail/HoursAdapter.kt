@@ -29,7 +29,6 @@ class HoursAdapter(val context1: Context, val items: ArrayList<Hours>) : Recycle
         val item = items.get(position)
 
         holder.tvHour.text = item.hour
-        Log.i("itemData", "$item")
 
         Glide.with(context1)
             .load(item.icon)
