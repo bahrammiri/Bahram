@@ -29,7 +29,8 @@ class DetailFragment(var aFinal: ArrayList<Final>) : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
-        val viewFragment = LayoutInflater.from(requireContext()).inflate(R.layout.detail_fragment, container, false)
+        val viewFragment = LayoutInflater.from(requireContext())
+            .inflate(R.layout.detail_fragment, container, false)
 
         rvFragment = viewFragment.findViewById(R.id.recycler_view_detail)
 
@@ -56,7 +57,8 @@ class DetailFragment(var aFinal: ArrayList<Final>) : Fragment() {
 
         fragmentAdapter = DetailFragmentAdapter(requireContext(), aFinal)
         rvFragment.adapter = fragmentAdapter
-        rvFragment.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+        rvFragment.layoutManager =
+            LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
 
 
     }

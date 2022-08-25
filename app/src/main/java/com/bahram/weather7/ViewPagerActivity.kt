@@ -1,4 +1,5 @@
 package com.bahram.weather7
+
 import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.widget.ViewPager2

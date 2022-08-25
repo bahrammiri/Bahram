@@ -12,16 +12,19 @@ import com.bahram.weather7.R
 import com.bahram.weather7.model.Days
 import com.bumptech.glide.Glide
 
-class DaysAdapter(val context1: Context, val items3: ArrayList<Days>?) : RecyclerView.Adapter<DaysAdapter.ViewHolderDays>() {
+class DaysAdapter(val context1: Context, val items3: ArrayList<Days>?) :
+    RecyclerView.Adapter<DaysAdapter.ViewHolderDays>() {
     class ViewHolderDays(view1: View) : RecyclerView.ViewHolder(view1) {
         var tvDayName: TextView = view1.findViewById(R.id.tv_day_name)
+
         var ivIconDay: ImageView = view1.findViewById(R.id.iv_icon_day)
         var tvTempMinDay: TextView = view1.findViewById(R.id.tv_temp_min_day)
         var tvTempMaxDay: TextView = view1.findViewById(R.id.tv_temp_max_day)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderDays {
-        var view1 = LayoutInflater.from(parent.context).inflate(R.layout.item_view_days, parent, false)
+        var view1 =
+            LayoutInflater.from(parent.context).inflate(R.layout.item_view_days, parent, false)
         return ViewHolderDays(view1)
     }
 

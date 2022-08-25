@@ -1,6 +1,5 @@
 package com.bahram.weather7.retrofit
 
-import android.content.Context
 import com.bahram.weather7.model.WeatherResponse
 import retrofit2.Call
 import retrofit2.http.GET

@@ -7,7 +7,8 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.bahram.weather7.model.Final
 
 
-class NumberAdapter(fragment: FragmentActivity, var aFinal: ArrayList<Final>) : FragmentStateAdapter(fragment) {
+class NumberAdapter(fragment: FragmentActivity, var aFinal: ArrayList<Final>) :
+    FragmentStateAdapter(fragment) {
     override fun getItemCount(): Int = 100
 
     override fun createFragment(position: Int): Fragment {

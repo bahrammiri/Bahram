@@ -1,16 +1,19 @@
 package com.bahram.weather7
 
+import android.os.Build
 import android.os.Bundle
-import android.os.Parcelable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bahram.weather7.adapter.PreviewFragmentAdapter
-import com.bahram.weather7.model.*
+import com.bahram.weather7.model.Item
+import com.bahram.weather7.model.ViewType
+import com.bahram.weather7.model.WeatherResponse
 
 
 class PreviewFragment : Fragment() {
@@ -18,9 +21,14 @@ class PreviewFragment : Fragment() {
     lateinit var recyclerViewPreview: RecyclerView
     lateinit var previewFragmentAdapter: PreviewFragmentAdapter
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?,
+    ): View? {
 
-        val viewPF = LayoutInflater.from(requireContext()).inflate(R.layout.preview_fragment, container, false)
+        val viewPF = LayoutInflater.from(requireContext())
+            .inflate(R.layout.preview_fragment, container, false)
         recyclerViewPreview = viewPF.findViewById(R.id.recycler_view_preview)
         return viewPF
     }
@@ -28,12 +36,25 @@ class PreviewFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        var selectedListReceived = arguments?.getParcelableArrayList<Item>("For PreviewFragment")
-        Log.i("For PreviewFragment", "$selectedListReceived")
+        val response = arguments?.getParcelable<WeatherResponse>("response")
+        Log.i("response", response.toString())
 
-        previewFragmentAdapter = PreviewFragmentAdapter(requireContext(), selectedListReceived as ArrayList<Item>?)
+        val weatherResponseConvertorToC = WeatherResponseConvertorToC()
+
+        var itemsCityForPreview = arrayListOf<Item>()
+
+        itemsCityForPreview.add(Item(ViewType.ONE,
+            weatherResponseConvertorToC.createHeaderList(response)))
+        itemsCityForPreview.add(Item(ViewType.TWO,
+            weatherResponseConvertorToC.createHoursList(response)))
+        itemsCityForPreview.add(Item(ViewType.THREE,
+            weatherResponseConvertorToC.createDaysList(response)))
+
+        previewFragmentAdapter =
+            PreviewFragmentAdapter(response!!,requireContext(), itemsCityForPreview)
         recyclerViewPreview.adapter = previewFragmentAdapter
-        recyclerViewPreview.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        recyclerViewPreview.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
     }
 

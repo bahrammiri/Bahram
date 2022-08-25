@@ -9,9 +9,13 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bahram.weather7.R
-import com.bahram.weather7.model.*
+import com.bahram.weather7.model.Final
+import com.bahram.weather7.model.Header
+import com.bahram.weather7.model.Item
+import com.bahram.weather7.model.ViewType
 
-class BriefAdapter(var context: Context, var brieflist: ArrayList<Final>?) : RecyclerView.Adapter<BriefAdapter.ViewHolderOne>() {
+class BriefAdapter(var context: Context, var brieflist: ArrayList<Final>?) :
+    RecyclerView.Adapter<BriefAdapter.ViewHolderOne>() {
 
     override fun getItemCount(): Int {
         return brieflist?.size ?: 0
@@ -44,20 +48,29 @@ class BriefAdapter(var context: Context, var brieflist: ArrayList<Final>?) : Rec
     override fun onBindViewHolder(holder: ViewHolderOne, position: Int) {
         val item = brieflist?.get(position)
 
-        val itemViewType = item?.items?.getOrNull(0)?.type
+        val detailsItem: Item? = item?.items?.getOrNull(0)
 
-        if (itemViewType == ViewType.ONE) {
-            val first = item?.items?.getOrNull(0)?.data as Header
+        if (detailsItem?.type == ViewType.ONE) {
 
-            holder.tvCityNameB.text = first?.cityName.toString() + ", " + first?.country.toString()
-            holder.tvTempB.text = first?.currentTemp
-            holder.tvDescriptionB.text = first?.description
-            holder.tvTempMaxB.text = "H:" + first?.tempMax
+            val headerData = detailsItem.data as Header
+
+            holder.tvCityNameB.text = headerData.cityName
+            holder.tvTempB.text = headerData.currentTemp
+            holder.tvDescriptionB.text = headerData.description
+            holder.tvTempMaxB.text = headerData.tempMax
+
         }
 
-        else {
-            throw IllegalArgumentException
-        }
+//        if (detailsItem == ViewType.ONE) {
+//            val first = item?.items?.getOrNull(0)?.data as Header
+//
+//            holder.tvCityNameB.text = first?.cityName.toString() + ", " + first?.country.toString()
+//            holder.tvTempB.text = first?.currentTemp
+//            holder.tvDescriptionB.text = first?.description
+//            holder.tvTempMaxB.text = "H:" + first?.tempMax
+//        } else {
+////            throw IllegalArgumentException
+//        }
     }
 }
 

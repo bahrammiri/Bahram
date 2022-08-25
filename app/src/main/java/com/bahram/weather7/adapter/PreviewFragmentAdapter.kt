@@ -3,7 +3,6 @@ package com.bahram.weather7.adapter
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,12 +11,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bahram.weather7.MainActivity
 import com.bahram.weather7.R
-import com.bahram.weather7.adapter.detail.HoursAdapter
 import com.bahram.weather7.adapter.detail.DaysAdapter
+import com.bahram.weather7.adapter.detail.HoursAdapter
 import com.bahram.weather7.model.*
 
 
-class PreviewFragmentAdapter(var context: Context, var listPreview: ArrayList<Item>?) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class PreviewFragmentAdapter(
+    val response: WeatherResponse,
+    var context: Context,
+    var listPreview: ArrayList<Item>?,
+) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     lateinit var hoursAdapter: HoursAdapter
     lateinit var daysAdapter: DaysAdapter
@@ -56,20 +60,23 @@ class PreviewFragmentAdapter(var context: Context, var listPreview: ArrayList<It
 
             ViewType.ONE.id -> {
                 val view1 =
-                    LayoutInflater.from(parent.context).inflate(R.layout.item_view_header, parent, false)
+                    LayoutInflater.from(parent.context)
+                        .inflate(R.layout.item_view_header, parent, false)
                 ViewHolderOne(view1)
             }
 
             ViewType.TWO.id,
             -> {
                 val view2 =
-                    LayoutInflater.from(parent.context).inflate(R.layout.recycler_view_hours, parent, false)
+                    LayoutInflater.from(parent.context)
+                        .inflate(R.layout.recycler_view_hours, parent, false)
                 ViewHolderTwo(view2)
             }
             else
             -> {
                 val view3 =
-                    LayoutInflater.from(parent.context).inflate(R.layout.recycler_view_days, parent, false)
+                    LayoutInflater.from(parent.context)
+                        .inflate(R.layout.recycler_view_days, parent, false)
                 ViewHolderThree(view3)
             }
 
@@ -85,15 +92,19 @@ class PreviewFragmentAdapter(var context: Context, var listPreview: ArrayList<It
             ViewType.ONE -> {
                 val viewHolder1 = holder as ViewHolderOne
                 val first = item?.data as? Header
-                viewHolder1.tvCityCountry.text = first?.cityName.toString() + ", " + first?.country.toString()
+                viewHolder1.tvCityCountry.text =
+                    first?.cityName.toString() + ", " + first?.country.toString()
                 viewHolder1.tvTempCurrent.text = first?.currentTemp
                 viewHolder1.tvDescription.text = first?.description
                 viewHolder1.tvTempMax.text = "H:" + first?.tempMax
                 viewHolder1.tvTempMin.text = "L:" + first?.tempMin
 
                 viewHolder1.tvAdd.setOnClickListener {
-                    var intent: Intent = Intent(context, MainActivity::class.java)
-                    intent.putExtra("For MainActivity: cityNameSelected", first?.cityName.toString())
+
+                    val sh = SharedPreferencesManager(context)
+                    sh.saveCity(first?.cityName.toString(), response)
+
+                    var intent = Intent(context, MainActivity::class.java)
                     viewHolder1.tvAdd.context.startActivity(intent)
                 }
 
@@ -136,7 +147,6 @@ class PreviewFragmentAdapter(var context: Context, var listPreview: ArrayList<It
 
         }
     }
-
 
 
 }
