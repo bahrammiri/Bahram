@@ -1,4 +1,4 @@
-package com.bahram.weather7
+package com.bahram.weather7.util
 
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -7,7 +7,7 @@ import com.bahram.weather7.model.Header
 import com.bahram.weather7.model.Hours
 import com.bahram.weather7.model.WeatherResponse
 
-class WeatherResponseConvertorToC {
+class WeatherResponseConverter {
 
     fun createHeaderList(response: WeatherResponse?): Header {
         val tempCurrent = response?.list?.getOrNull(0)?.main?.temp ?: 0.0
@@ -22,13 +22,11 @@ class WeatherResponseConvertorToC {
             tempMax1.toString().substringBefore(".") + "°")
     }
 
-
+    @RequiresApi(Build.VERSION_CODES.O)
     fun createHoursList(response: WeatherResponse?): ArrayList<Hours> {
         val hoursList = arrayListOf<Hours>()
         response?.list?.forEach {
-//            val hour2 = Util.timeStampToLocalHour(it.date ?: 0)
-            val hour2 = "dddd"
-
+            val hour2 = Util.timeStampToLocalHour(it.date ?: 0)
             val iconCode = it.weather?.getOrNull(0)?.icon
             val url = "https://openweathermap.org/img/wn/$iconCode@2x.png"
             val temp2 = it.main?.temp ?: 0.0

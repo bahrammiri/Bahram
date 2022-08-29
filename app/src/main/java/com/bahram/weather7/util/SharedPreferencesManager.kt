@@ -1,4 +1,4 @@
-package com.bahram.weather7.adapter
+package com.bahram.weather7.util
 
 import android.content.Context
 import android.content.SharedPreferences

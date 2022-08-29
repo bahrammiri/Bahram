@@ -13,21 +13,3 @@ interface ApiInterface {
         @Query("units") units: String,
     ): Call<WeatherResponse>
 }
-
-//fun getAllValues(context: Context?): List<*>? {
-//    val values: Map<*, *> = getPref(context).getAll()
-//    val prefDataList: MutableList<*> = ArrayList()
-//    for ((key, value): Map.Entry<*, *> in values) {
-//        val prefData = PrefData()
-//        prefData.key = key
-//        prefData.value = value.toString()
-//        prefDataList.add(prefData)
-//    }
-//    return prefDataList
-//}
-//
-//
-//data class PrefData (
-//    var key: String? = null,
-//    var value: String? = null
-//)

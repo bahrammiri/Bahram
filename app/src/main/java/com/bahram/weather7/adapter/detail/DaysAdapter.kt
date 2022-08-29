@@ -1,7 +1,6 @@
 package com.bahram.weather7.adapter.detail
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,39 +11,34 @@ import com.bahram.weather7.R
 import com.bahram.weather7.model.Days
 import com.bumptech.glide.Glide
 
-class DaysAdapter(val context1: Context, val items3: ArrayList<Days>?) :
+class DaysAdapter(val context: Context, private val daysList: ArrayList<Days>?) :
     RecyclerView.Adapter<DaysAdapter.ViewHolderDays>() {
-    class ViewHolderDays(view1: View) : RecyclerView.ViewHolder(view1) {
-        var tvDayName: TextView = view1.findViewById(R.id.tv_day_name)
-
-        var ivIconDay: ImageView = view1.findViewById(R.id.iv_icon_day)
-        var tvTempMinDay: TextView = view1.findViewById(R.id.tv_temp_min_day)
-        var tvTempMaxDay: TextView = view1.findViewById(R.id.tv_temp_max_day)
+    class ViewHolderDays(view: View) : RecyclerView.ViewHolder(view) {
+        var textViewNameDay: TextView = view.findViewById(R.id.text_view_name_day)
+        var imageViewIconDay: ImageView = view.findViewById(R.id.image_view_icon_day)
+        var textViewTempMinDay: TextView = view.findViewById(R.id.text_view_temp_min_day)
+        var textViewTempMaxDay: TextView = view.findViewById(R.id.text_view_temp_max_day)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderDays {
-        var view1 =
+        var view =
             LayoutInflater.from(parent.context).inflate(R.layout.item_view_days, parent, false)
-        return ViewHolderDays(view1)
+        return ViewHolderDays(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolderDays, position: Int) {
-        val item = items3?.get(position)
+        val item = daysList?.get(position)
 
-        holder.tvDayName.text = item?.day
-        Log.i("itemDataday", "$item")
-
-        val iconCode = item?.iconDay.toString()
-        Glide.with(context1)
+        holder.textViewNameDay.text = item?.day
+        Glide.with(context)
             .load(item?.iconDay)
-            .into(holder.ivIconDay)
-
-        holder.tvTempMinDay.text = item?.tempMinDay
-        holder.tvTempMaxDay.text = item?.tempMaxDay
+            .into(holder.imageViewIconDay)
+        holder.textViewTempMinDay.text = item?.tempMinDay
+        holder.textViewTempMaxDay.text = item?.tempMaxDay
     }
 
     override fun getItemCount(): Int {
-        return items3?.size ?: 0
+        return daysList?.size ?: 0
     }
 
 }

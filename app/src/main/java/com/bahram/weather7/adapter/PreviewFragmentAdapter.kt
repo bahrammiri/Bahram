@@ -14,12 +14,12 @@ import com.bahram.weather7.R
 import com.bahram.weather7.adapter.detail.DaysAdapter
 import com.bahram.weather7.adapter.detail.HoursAdapter
 import com.bahram.weather7.model.*
-
+import com.bahram.weather7.util.SharedPreferencesManager
 
 class PreviewFragmentAdapter(
-    val response: WeatherResponse,
+    val response: WeatherResponse?,
     var context: Context,
-    var listPreview: ArrayList<Item>?,
+    var cityList: ArrayList<Item>?,
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -27,31 +27,31 @@ class PreviewFragmentAdapter(
     lateinit var daysAdapter: DaysAdapter
 
     override fun getItemCount(): Int {
-        return listPreview?.size ?: 0
+        return cityList?.size ?: 0
     }
 
     class ViewHolderOne(viewOne: View) : RecyclerView.ViewHolder(viewOne) {
-        val tvCityCountry: TextView = viewOne.findViewById<TextView>(R.id.text_view_city_country)
-        val tvTempCurrent: TextView = viewOne.findViewById<TextView>(R.id.text_view_temp_current)
-        val tvDescription: TextView = viewOne.findViewById<TextView>(R.id.text_view_description)
-        val tvTempMax: TextView = viewOne.findViewById<TextView>(R.id.text_view_temp_max)
-        val tvTempMin: TextView = viewOne.findViewById<TextView>(R.id.text_view_temp_min)
+        val textViewCityCountry: TextView = viewOne.findViewById<TextView>(R.id.text_view_city_country)
+        val textViewTempCurrent: TextView = viewOne.findViewById<TextView>(R.id.text_view_temp_current)
+        val textViewDescription: TextView = viewOne.findViewById<TextView>(R.id.text_view_description)
+        val textViewTempMax: TextView = viewOne.findViewById<TextView>(R.id.text_view_temp_max)
+        val textViewTempMin: TextView = viewOne.findViewById<TextView>(R.id.text_view_temp_min)
 
-        val tvAdd: TextView = viewOne.findViewById(R.id.text_view_add)
-        val tvCancel: TextView = viewOne.findViewById(R.id.text_view_cancel)
+        val textViewAdd: TextView = viewOne.findViewById(R.id.text_view_add)
+        val textViewCancel: TextView = viewOne.findViewById(R.id.text_view_cancel)
     }
 
     class ViewHolderTwo(viewTwo: View) : RecyclerView.ViewHolder(viewTwo) {
-        val rvHours = viewTwo.findViewById<RecyclerView>(R.id.recycler_view_hours)
+        val recyclerViewHours = viewTwo.findViewById<RecyclerView>(R.id.recycler_view_hours)
     }
 
     class ViewHolderThree(viewThree: View) : RecyclerView.ViewHolder(viewThree) {
-        val rvDays = viewThree.findViewById<RecyclerView>(R.id.recycler_view_days)
+        val recyclerViewDays = viewThree.findViewById<RecyclerView>(R.id.recycler_view_days)
     }
 
 
     override fun getItemViewType(position: Int): Int {
-        val item = listPreview?.get(position)
+        val item = cityList?.get(position)
         return item?.type?.id ?: 0
     }
 
@@ -85,35 +85,34 @@ class PreviewFragmentAdapter(
 
     @SuppressLint("RestrictedApi")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val item = listPreview?.get(position)
+        val item = cityList?.get(position)
         val itemViewType = item?.type
 
         when (itemViewType) {
             ViewType.ONE -> {
                 val viewHolder1 = holder as ViewHolderOne
                 val first = item?.data as? Header
-                viewHolder1.tvCityCountry.text =
+                viewHolder1.textViewCityCountry.text =
                     first?.cityName.toString() + ", " + first?.country.toString()
-                viewHolder1.tvTempCurrent.text = first?.currentTemp
-                viewHolder1.tvDescription.text = first?.description
-                viewHolder1.tvTempMax.text = "H:" + first?.tempMax
-                viewHolder1.tvTempMin.text = "L:" + first?.tempMin
+                viewHolder1.textViewTempCurrent.text = first?.currentTemp
+                viewHolder1.textViewDescription.text = first?.description
+                viewHolder1.textViewTempMax.text = "H:" + first?.tempMax
+                viewHolder1.textViewTempMin.text = "L:" + first?.tempMin
 
-                viewHolder1.tvAdd.setOnClickListener {
+                viewHolder1.textViewAdd.setOnClickListener {
 
                     val sh = SharedPreferencesManager(context)
-                    sh.saveCity(first?.cityName.toString(), response)
+                    sh.saveCity(first?.cityName.toString(), response!!)
 
                     var intent = Intent(context, MainActivity::class.java)
-                    viewHolder1.tvAdd.context.startActivity(intent)
+                    viewHolder1.textViewAdd.context.startActivity(intent)
                 }
 
-                viewHolder1.tvCancel.setOnClickListener {
+                viewHolder1.textViewCancel.setOnClickListener {
                     var intent: Intent = Intent(context, MainActivity::class.java)
                     intent.putExtra("For MainActivity: cityNameSelected", "")
-                    viewHolder1.tvCancel.context.startActivity(intent)
+                    viewHolder1.textViewCancel.context.startActivity(intent)
                 }
-
 
             }
 
@@ -121,33 +120,31 @@ class PreviewFragmentAdapter(
                 val viewHolder2 = holder as ViewHolderTwo
                 val second = item?.data as? ArrayList<Hours>
 
-                viewHolder2.rvHours.layoutManager = LinearLayoutManager(
-                    viewHolder2.rvHours.context,
+                viewHolder2.recyclerViewHours.layoutManager = LinearLayoutManager(
+                    viewHolder2.recyclerViewHours.context,
                     RecyclerView.HORIZONTAL,
                     false
                 )
                 hoursAdapter = HoursAdapter(context, second!!)
-                viewHolder2.rvHours.adapter = hoursAdapter
+                viewHolder2.recyclerViewHours.adapter = hoursAdapter
             }
 
             else -> {
                 val viewHolder3 = holder as ViewHolderThree
                 val third = item?.data as? ArrayList<Days>
 
-                viewHolder3.rvDays.layoutManager = LinearLayoutManager(
-                    viewHolder3.rvDays.context,
+                viewHolder3.recyclerViewDays.layoutManager = LinearLayoutManager(
+                    viewHolder3.recyclerViewDays.context,
                     RecyclerView.VERTICAL,
                     false
                 )
                 daysAdapter = DaysAdapter(context, third)
-                viewHolder3.rvDays.adapter = daysAdapter
+                viewHolder3.recyclerViewDays.adapter = daysAdapter
 
             }
 
-
         }
     }
-
 
 }
 

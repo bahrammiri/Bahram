@@ -11,34 +11,32 @@ import com.bahram.weather7.R
 import com.bahram.weather7.model.Hours
 import com.bumptech.glide.Glide
 
-class HoursAdapter(val context1: Context, val items: ArrayList<Hours>) :
+class HoursAdapter(val context: Context, private val hoursList: ArrayList<Hours>) :
     RecyclerView.Adapter<HoursAdapter.ViewHolderHours>() {
-    class ViewHolderHours(view1: View) : RecyclerView.ViewHolder(view1) {
-        var tvHour: TextView = view1.findViewById(R.id.tv_hour)
-        var ivIcon: ImageView = view1.findViewById(R.id.iv_icon)
-        var tvTemp: TextView = view1.findViewById(R.id.tv_temp)
+    class ViewHolderHours(view: View) : RecyclerView.ViewHolder(view) {
+        var textViewHour: TextView = view.findViewById(R.id.text_view_hour)
+        var imageViewIconHour: ImageView = view.findViewById(R.id.image_view_icon_hour)
+        var textViewTempHour: TextView = view.findViewById(R.id.text_view_temp_hour)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderHours {
-        var view1 =
+        var view =
             LayoutInflater.from(parent.context).inflate(R.layout.item_view_hours, parent, false)
-        return ViewHolderHours(view1)
+        return ViewHolderHours(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolderHours, position: Int) {
-        val item = items.get(position)
+        val item = hoursList.get(position)
 
-        holder.tvHour.text = item.hour
-
-        Glide.with(context1)
+        holder.textViewHour.text = item.hour
+        Glide.with(context)
             .load(item.icon)
-            .into(holder.ivIcon)
-
-        holder.tvTemp.text = item?.temp
+            .into(holder.imageViewIconHour)
+        holder.textViewTempHour.text = item.temp
     }
 
     override fun getItemCount(): Int {
-        return items.size
+        return hoursList.size
     }
 
 }

@@ -2,68 +2,65 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:layout_centerInParent="true"
     android:layout_margin="12dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="wrap_content">
 
-    <LinearLayout
-        android:id="@+id/linear_layout_cancel_add"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="11">
+        <LinearLayout
+            android:id="@+id/linear_layout_cancel_add"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="11">
+
+            <TextView
+                android:id="@+id/text_view_cancel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_weight="5"
+                android:text="Cancel"
+                android:textAlignment="textStart"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                tools:text="Cancel"
+                tools:textColor="@color/black" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/text_view_add"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="8dp"
+                android:layout_weight="5"
+                android:text="Add"
+                android:textAlignment="textEnd"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                tools:text="Add"
+                tools:textColor="@color/black" />
+
+        </LinearLayout>
 
         <TextView
-            android:id="@+id/text_view_cancel"
-            android:layout_width="0dp"
+            android:id="@+id/text_view_city_country"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_weight="5"
-            android:text="Cancel"
-            android:textAlignment="textStart"
+            android:layout_below="@id/linear_layout_cancel_add"
+            android:text="1"
+            android:textAlignment="center"
             android:textColor="@color/white"
-            android:textSize="16sp"
-            tools:text="Cancel"
+            android:textSize="24sp"
+            tools:text="City"
             tools:textColor="@color/black" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-
-            />
-
-        <TextView
-            android:id="@+id/text_view_add"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="8dp"
-            android:layout_weight="5"
-            android:text="Add"
-            android:textAlignment="textEnd"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            tools:text="Add"
-            tools:textColor="@color/black" />
-
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/text_view_city_country"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/linear_layout_cancel_add"
-        android:text="1"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textSize="24sp"
-        tools:text="City"
-        tools:textColor="@color/black"/>
 
         <TextView
             android:id="@+id/text_view_temp_current"
@@ -73,59 +70,51 @@
             android:text="2"
             android:textAlignment="center"
             android:textColor="@color/white"
-            android:textSize="88sp"
-
-            />
-
-    <TextView
-        android:id="@+id/text_view_description"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/text_view_temp_current"
-        android:text="3"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textSize="24sp" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_below="@id/text_view_description"
-        android:weightSum="11">
-
+            android:textSize="88sp" />
 
         <TextView
-            android:id="@+id/text_view_temp_max"
-            android:layout_width="0dp"
+            android:id="@+id/text_view_description"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="5"
-            android:text="4"
-            android:textAlignment="textEnd"
-            android:textColor="@color/white"
-            android:textSize="24sp"
-
-            />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-
-            />
-
-        <TextView
-            android:id="@+id/text_view_temp_min"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="5"
-            android:text="5"
-            android:textAlignment="textStart"
+            android:layout_below="@id/text_view_temp_current"
+            android:text="3"
+            android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="24sp" />
 
-    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text_view_description"
+            android:orientation="horizontal"
+            android:weightSum="11">
 
+            <TextView
+                android:id="@+id/text_view_temp_max"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:text="4"
+                android:textAlignment="textEnd"
+                android:textColor="@color/white"
+                android:textSize="24sp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/text_view_temp_min"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:text="5"
+                android:textAlignment="textStart"
+                android:textColor="@color/white"
+                android:textSize="24sp" />
+
+        </LinearLayout>
 
     </RelativeLayout>
 

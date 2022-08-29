@@ -15,11 +15,8 @@ import com.bahram.weather7.adapter.detail.DaysAdapter
 import com.bahram.weather7.adapter.detail.HoursAdapter
 import com.bahram.weather7.model.*
 
-
-class DetailFragmentAdapter(var context: Context, var listMain: ArrayList<Final>) :
+class DetailFragmentAdapter(var context: Context, var listMain: ArrayList<Item>?) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
-
     lateinit var hoursAdapter: HoursAdapter
     lateinit var daysAdapter: DaysAdapter
 
@@ -49,7 +46,7 @@ class DetailFragmentAdapter(var context: Context, var listMain: ArrayList<Final>
 
     override fun getItemViewType(position: Int): Int {
         val item = listMain?.get(position)
-        return item?.items?.getOrNull(0)?.type?.id ?: 0
+        return item?.type?.id ?: 0
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -83,12 +80,12 @@ class DetailFragmentAdapter(var context: Context, var listMain: ArrayList<Final>
     @SuppressLint("RestrictedApi")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val item = listMain?.get(position)
-        val itemViewType = item?.items?.getOrNull(0)?.type
+        val itemViewType = item?.type
 
         when (itemViewType) {
             ViewType.ONE -> {
                 val viewHolder1 = holder as ViewHolderOne
-                val first = item.items?.getOrNull(0)?.data as? Header
+                val first = item?.data as? Header
                 viewHolder1.tvCityCountry.text =
                     first?.cityName.toString() + ", " + first?.country.toString()
                 viewHolder1.tvTempCurrent.text = first?.currentTemp
@@ -96,24 +93,14 @@ class DetailFragmentAdapter(var context: Context, var listMain: ArrayList<Final>
                 viewHolder1.tvTempMax.text = "H:" + first?.tempMax
                 viewHolder1.tvTempMin.text = "L:" + first?.tempMin
 
-                viewHolder1.tvAdd.setOnClickListener {
-                    var intent: Intent = Intent(context, MainActivity::class.java)
-                    intent.putExtra("For MainActivity: Final city name", first?.cityName.toString())
-                    viewHolder1.tvAdd.context.startActivity(intent)
 
-                }
-
-                viewHolder1.tvCancel.setOnClickListener {
-                    var intent: Intent = Intent(context, MainActivity::class.java)
-                    viewHolder1.tvCancel.context.startActivity(intent)
-                }
 
 
             }
 
             ViewType.TWO -> {
                 val viewHolder2 = holder as ViewHolderTwo
-                val second = item.items?.getOrNull(0)?.data as? ArrayList<Hours>
+                val second = item?.data as? ArrayList<Hours>
 
                 viewHolder2.rvHours.layoutManager = LinearLayoutManager(
                     viewHolder2.rvHours.context,
@@ -126,14 +113,14 @@ class DetailFragmentAdapter(var context: Context, var listMain: ArrayList<Final>
 
             else -> {
                 val viewHolder3 = holder as ViewHolderThree
-                val third = item?.items?.getOrNull(0)?.data as? ArrayList<Days>
+                val third = item?.data as? ArrayList<Days>
 
                 viewHolder3.rvDays.layoutManager = LinearLayoutManager(
                     viewHolder3.rvDays.context,
                     RecyclerView.VERTICAL,
                     false
                 )
-                daysAdapter = DaysAdapter(context, third!!)
+                daysAdapter = DaysAdapter(context, third)
                 viewHolder3.rvDays.adapter = daysAdapter
 
             }
@@ -144,6 +131,121 @@ class DetailFragmentAdapter(var context: Context, var listMain: ArrayList<Final>
 
 
 }
+
+
+//    lateinit var hoursAdapter: HoursAdapter
+//    lateinit var daysAdapter: DaysAdapter
+//
+//    override fun getItemCount(): Int {
+//        return listMain?.size ?: 0
+//    }
+//
+//    class ViewHolderOne(viewOne: View) : RecyclerView.ViewHolder(viewOne) {
+//        val textViewCityCountry: TextView = viewOne.findViewById<TextView>(R.id.text_view_city_country)
+//        val textViewTempCurrent: TextView = viewOne.findViewById<TextView>(R.id.text_view_temp_current)
+//        val textViewDescription: TextView = viewOne.findViewById<TextView>(R.id.text_view_description)
+//        val textViewTempMax: TextView = viewOne.findViewById<TextView>(R.id.text_view_temp_max)
+//        val textViewTempMin: TextView = viewOne.findViewById<TextView>(R.id.text_view_temp_min)
+//    }
+//
+//    class ViewHolderTwo(viewTwo: View) : RecyclerView.ViewHolder(viewTwo) {
+//        val recyclerViewHours = viewTwo.findViewById<RecyclerView>(R.id.recycler_view_hours)
+//    }
+//
+//    class ViewHolderThree(viewThree: View) : RecyclerView.ViewHolder(viewThree) {
+//        val recyclerViewDays = viewThree.findViewById<RecyclerView>(R.id.recycler_view_days)
+//    }
+//
+//
+//    override fun getItemViewType(position: Int): Int {
+//        val item = listMain?.get(position)
+//        return item?.items?.getOrNull(0)?.type?.id ?: 0
+//    }
+//
+//    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+//        return when (viewType) {
+//
+//            ViewType.ONE.id -> {
+//                val view1 =
+//                    LayoutInflater.from(parent.context)
+//                        .inflate(R.layout.item_view_header, parent, false)
+//                ViewHolderOne(view1)
+//            }
+//
+//            ViewType.TWO.id,
+//            -> {
+//                val view2 =
+//                    LayoutInflater.from(parent.context)
+//                        .inflate(R.layout.recycler_view_hours, parent, false)
+//                ViewHolderTwo(view2)
+//            }
+//            else
+//            -> {
+//                val view3 =
+//                    LayoutInflater.from(parent.context)
+//                        .inflate(R.layout.recycler_view_days, parent, false)
+//                ViewHolderThree(view3)
+//            }
+//
+//        }
+//    }
+//
+//    @SuppressLint("RestrictedApi")
+//    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+//        val item = listMain?.get(position)
+//
+//
+//        val itemViewType = item?.items?.getOrNull(0)
+//
+//        when (itemViewType?.type) {
+//            ViewType.ONE -> {
+//                val viewHolder1 = holder as ViewHolderOne
+//                val first = item.items?.getOrNull(0)?.data as? Header
+//                viewHolder1.textViewCityCountry.text =
+//                    first?.cityName.toString() + ", " + first?.country.toString()
+//                viewHolder1.textViewTempCurrent.text = first?.currentTemp
+//                viewHolder1.textViewDescription.text = first?.description
+//                viewHolder1.textViewTempMax.text = "H:" + first?.tempMax
+//                viewHolder1.textViewTempMin.text = "L:" + first?.tempMin
+//
+//
+//
+//            }
+//
+//            ViewType.TWO -> {
+//                val viewHolder2 = holder as ViewHolderTwo
+//                val second = item.items?.getOrNull(0)?.data as? ArrayList<Hours>
+//
+//                viewHolder2.recyclerViewHours.layoutManager = LinearLayoutManager(
+//                    viewHolder2.recyclerViewHours.context,
+//                    RecyclerView.HORIZONTAL,
+//                    false
+//                )
+//                hoursAdapter = HoursAdapter(context, second!!)
+//                viewHolder2.recyclerViewHours.adapter = hoursAdapter
+//            }
+//
+//            else -> {
+//                val viewHolder3 = holder as ViewHolderThree
+//                val third = item?.items?.getOrNull(0)?.data as ArrayList<Days>
+//
+//                viewHolder3.recyclerViewDays.layoutManager = LinearLayoutManager(
+//                    viewHolder3.recyclerViewDays.context,
+//                    RecyclerView.VERTICAL,
+//                    false
+//                )
+//                daysAdapter = DaysAdapter(context, third!!)
+//                viewHolder3.recyclerViewDays.adapter = daysAdapter
+//
+//            }
+//
+//
+//
+//        }
+//    }
+//
+//
+//}
 
 
 

@@ -1,4 +1,4 @@
-package com.bahram.weather7
+package com.bahram.weather7.util
 
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -7,8 +7,6 @@ import java.time.ZoneId
 
 class Util {
     companion object {
-
-
         @RequiresApi(Build.VERSION_CODES.O)
         fun timeStampToLocalHour(timeStamp: Long): String {
             val localTime = timeStamp.let {
