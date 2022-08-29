@@ -20,6 +20,13 @@ class PreviewFragment : Fragment() {
     lateinit var recyclerViewPreview: RecyclerView
     lateinit var previewFragmentAdapter: PreviewFragmentAdapter
 
+    companion object {
+        val KEY_DATA = "KEY_DATA"
+        val KEY_STATE = "KEY_STATE"
+        val VALUE_STATE_PREVIEW_MODE = "VALUE_STATE_PREVIEW_MODE"
+        val VALUE_STATE_INSERT_MODE = "VALUE_STATE_INSERT_MODE"
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -36,7 +43,14 @@ class PreviewFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val response = arguments?.getParcelable<WeatherResponse>("response")
+        val response = arguments?.getParcelable<WeatherResponse>(KEY_DATA)
+        val state = arguments?.getString(KEY_STATE)
+        if (state == VALUE_STATE_PREVIEW_MODE) {
+
+        } else if (state == VALUE_STATE_INSERT_MODE) {
+
+
+        }
 
         val weatherResponseConverter = WeatherResponseConverter()
 

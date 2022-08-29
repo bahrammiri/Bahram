@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bahram.weather7.ViewPagerActivity
 import com.bahram.weather7.R
+import com.bahram.weather7.ViewPagerActivity.Companion.KEY_CITY_ITEM_POSITION
 import com.bahram.weather7.model.Final
 import com.bahram.weather7.model.Header
 import com.bahram.weather7.model.ViewType
@@ -67,7 +68,7 @@ class BriefAdapter(var context: Context, var briefcitieslist: ArrayList<Final>?,
 
         holder.llSelected.setOnClickListener {
             var intent = Intent(context, ViewPagerActivity::class.java)
-            intent.putExtra("briefcitieslist", position)
+            intent.putExtra(KEY_CITY_ITEM_POSITION, position)
             holder.llSelected.context.startActivity(intent)
 
         }

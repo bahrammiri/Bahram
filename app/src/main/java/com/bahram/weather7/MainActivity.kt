@@ -11,6 +11,9 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bahram.weather7.PreviewFragment.Companion.KEY_DATA
+import com.bahram.weather7.PreviewFragment.Companion.KEY_STATE
+import com.bahram.weather7.PreviewFragment.Companion.VALUE_STATE_PREVIEW_MODE
 import com.bahram.weather7.adapter.BriefAdapter
 import com.bahram.weather7.util.SharedPreferencesManager
 import com.bahram.weather7.model.Final
@@ -95,7 +98,9 @@ class MainActivity : AppCompatActivity() {
 
     fun sendResponseToPreviewFragment(response: WeatherResponse?) {
         val bundle = Bundle()
-        bundle.putParcelable("response", response)
+        bundle.putParcelable(KEY_DATA, response)
+        bundle.putString(KEY_STATE, VALUE_STATE_PREVIEW_MODE)
+
         val previewFragment = PreviewFragment()
         previewFragment.arguments = bundle
         val fragmentTransaction = supportFragmentManager.beginTransaction();
