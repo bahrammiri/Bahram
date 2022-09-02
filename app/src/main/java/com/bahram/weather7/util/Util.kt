@@ -19,12 +19,10 @@ class Util {
         @RequiresApi(Build.VERSION_CODES.O)
         fun timeStampToLocalDay(timeStamp: Long): String {
             val localTime = timeStamp.let {
-                Instant.ofEpochSecond(it)
-                    .atZone(ZoneId.systemDefault()).dayOfWeek
+                Instant.ofEpochSecond(it).atZone(ZoneId.systemDefault()).dayOfWeek
             }
             return localTime.toString().lowercase()
         }
-
 
     }
 

@@ -7,20 +7,17 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bahram.weather7.R
-import com.bahram.weather7.model.Final
+import com.bahram.weather7.model.CityItems
 
-//lateinit var mainAdapter: MainAdapter
-lateinit var previewFragmentAdapter: PreviewFragmentAdapter
-
-class DetailViewPagerAdapter(
+class ViewPagerAdapter(
     var context: Context,
-    private val viewPagerList: ArrayList<Final>?,
-) : RecyclerView.Adapter<DetailViewPagerAdapter.DetailViewHolder>() {
+    private val viewPagerList: ArrayList<CityItems>?,
+) : RecyclerView.Adapter<ViewPagerAdapter.DetailViewHolder>() {
 
     class DetailViewHolder(
         itemView: View,
     ) : RecyclerView.ViewHolder(itemView) {
-        val recyclerViewDetail2: RecyclerView = itemView.findViewById(R.id.recycler_view_detail)
+        val recyclerViewDetail: RecyclerView = itemView.findViewById(R.id.recycler_view_detail)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DetailViewHolder {
@@ -34,15 +31,13 @@ class DetailViewPagerAdapter(
     override fun onBindViewHolder(holder: DetailViewHolder, position: Int) {
         val item = viewPagerList?.get(position)
 
-        holder.recyclerViewDetail2.layoutManager = LinearLayoutManager(
-            holder.recyclerViewDetail2.context,
+        holder.recyclerViewDetail.layoutManager = LinearLayoutManager(
+            holder.recyclerViewDetail.context,
             RecyclerView.VERTICAL,
             false
         )
-        previewFragmentAdapter = PreviewFragmentAdapter(null,context, item?.items)
-        holder.recyclerViewDetail2.adapter = previewFragmentAdapter
-
-
+        val previewFragmentAdapter = PreviewFragmentAdapter(context, item?.cityItems, null, PreviewFragmentAdapter.VALUE_STATE_DETAIL_MODE)
+        holder.recyclerViewDetail.adapter = previewFragmentAdapter
     }
 
     override fun getItemCount(): Int = viewPagerList?.size ?: 0

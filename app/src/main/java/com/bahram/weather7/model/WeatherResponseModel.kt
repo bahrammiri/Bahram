@@ -5,10 +5,10 @@ import kotlinx.android.parcel.Parcelize
 import kotlinx.android.parcel.RawValue
 
 @Parcelize
-data class Final(var items: @RawValue ArrayList<Item>) : Parcelable
+data class CityItems(var cityItems: @RawValue ArrayList<CityItem>) : Parcelable
 
 @Parcelize
-data class Item(val type: ViewType, val data: @RawValue Any) : Parcelable
+data class CityItem(val type: ViewType, val item: @RawValue Any) : Parcelable
 
 @Parcelize
 enum class ViewType(val id: Int) : Parcelable {

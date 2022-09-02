@@ -6,23 +6,20 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
-import android.widget.RelativeLayout
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bahram.weather7.PreviewFragment.Companion.KEY_DATA
-import com.bahram.weather7.PreviewFragment.Companion.KEY_STATE
-import com.bahram.weather7.PreviewFragment.Companion.VALUE_STATE_PREVIEW_MODE
 import com.bahram.weather7.adapter.BriefAdapter
-import com.bahram.weather7.util.SharedPreferencesManager
-import com.bahram.weather7.model.Final
-import com.bahram.weather7.model.Item
+import com.bahram.weather7.model.CityItem
+import com.bahram.weather7.model.CityItems
 import com.bahram.weather7.model.ViewType
 import com.bahram.weather7.model.WeatherResponse
 import com.bahram.weather7.retrofit.Constants
 import com.bahram.weather7.retrofit.RetrofitService
-import com.bahram.weather7.util.WeatherResponseConverter
+import com.bahram.weather7.util.SharedPreferencesManager
+import com.bahram.weather7.util.WeatherResponseItemCreator
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -30,11 +27,9 @@ import retrofit2.Response
 class MainActivity : AppCompatActivity() {
 
     lateinit var cityNameInputted: String
-    lateinit var relativeLayout: RelativeLayout
-    lateinit var editTextCityName: EditText
     lateinit var recyclerViewBrief: RecyclerView
 
-    var selectedListFinal: ArrayList<Final>? = null
+    var citiesItems: ArrayList<CityItems>? = null
     lateinit var briefAdapter: BriefAdapter
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -42,15 +37,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        relativeLayout = findViewById(R.id.relative_layout_main)
-        editTextCityName = findViewById(R.id.edit_text_city_name)
-        recyclerViewBrief = findViewById(R.id.recycler_view_selected)
+        val editTextCityName: EditText = findViewById(R.id.edit_text_city_name)
+        recyclerViewBrief = findViewById(R.id.recycler_view_brief)
 
-        loadData()
+        loadCitiesItems()
 
-        if (selectedListFinal != null) {
+        if (citiesItems != null) {
             recyclerViewBrief.visibility = View.VISIBLE
-            briefAdapter = BriefAdapter(this, selectedListFinal)
+            briefAdapter = BriefAdapter(this, citiesItems)
             recyclerViewBrief.adapter = briefAdapter
             recyclerViewBrief.layoutManager =
                 LinearLayoutManager(this, RecyclerView.VERTICAL, false)
@@ -72,6 +66,7 @@ class MainActivity : AppCompatActivity() {
                 true
             } else false
         }
+
     }
 
     private fun getCityWeather(city: String) {
@@ -86,7 +81,13 @@ class MainActivity : AppCompatActivity() {
 
                     val responseBody = response.body()
                     if (responseBody != null) {
-                        sendResponseToPreviewFragment(responseBody)
+
+//                        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
+                        supportActionBar?.setDisplayShowTitleEnabled(false)
+                        supportActionBar?.hide();
+                        actionBar?.hide()
+
+                        sendCityResponseToPreviewFragment(responseBody)
                     }
                 }
 
@@ -96,11 +97,10 @@ class MainActivity : AppCompatActivity() {
             })
     }
 
-    fun sendResponseToPreviewFragment(response: WeatherResponse?) {
+    fun sendCityResponseToPreviewFragment(response: WeatherResponse?) {
+
         val bundle = Bundle()
         bundle.putParcelable(KEY_DATA, response)
-        bundle.putString(KEY_STATE, VALUE_STATE_PREVIEW_MODE)
-
         val previewFragment = PreviewFragment()
         previewFragment.arguments = bundle
         val fragmentTransaction = supportFragmentManager.beginTransaction();
@@ -109,24 +109,24 @@ class MainActivity : AppCompatActivity() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun loadData() {
+    fun loadCitiesItems() {
         val sh = SharedPreferencesManager(this)
-        val weatherResponses = sh.loadCities()
+        val weatherResponses = sh.loadCitiesResponses()
 
-        selectedListFinal = arrayListOf()
+        citiesItems = arrayListOf()
+
         weatherResponses.forEach { response ->
-            val cityItems = arrayListOf<Item>()
-            val weatherResponseConverter = WeatherResponseConverter()
-            cityItems.add(Item(ViewType.ONE,
-                weatherResponseConverter.createHeaderList(response)))
-            cityItems.add(Item(ViewType.TWO,
-                weatherResponseConverter.createHoursList(response)))
-            cityItems.add(Item(ViewType.THREE,
-                weatherResponseConverter.createDaysList(response)))
-            selectedListFinal?.add(Final(cityItems))
-        }
+            val cityItems = arrayListOf<CityItem>()
+            val weatherResponseItemCreator = WeatherResponseItemCreator()
 
+            cityItems.add(CityItem(ViewType.ONE, weatherResponseItemCreator.createHeaderList(response)))
+            cityItems.add(CityItem(ViewType.TWO, weatherResponseItemCreator.createHoursList(response)))
+            cityItems.add(CityItem(ViewType.THREE, weatherResponseItemCreator.createDaysList(response)))
+
+            citiesItems?.add(CityItems(cityItems))
+        }
     }
+
 
 }
 

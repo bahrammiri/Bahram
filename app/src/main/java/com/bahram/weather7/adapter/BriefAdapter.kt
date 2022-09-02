@@ -9,18 +9,18 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.bahram.weather7.ViewPagerActivity
 import com.bahram.weather7.R
+import com.bahram.weather7.ViewPagerActivity
 import com.bahram.weather7.ViewPagerActivity.Companion.KEY_CITY_ITEM_POSITION
-import com.bahram.weather7.model.Final
+import com.bahram.weather7.model.CityItems
 import com.bahram.weather7.model.Header
 import com.bahram.weather7.model.ViewType
 
-class BriefAdapter(var context: Context, var briefcitieslist: ArrayList<Final>?, val onClickListener: OnClickListener? = null) :
+class BriefAdapter(var context: Context, var citiesItems: ArrayList<CityItems>?) :
     RecyclerView.Adapter<BriefAdapter.ViewHolderOne>() {
 
     override fun getItemCount(): Int {
-        return briefcitieslist?.size ?: 0
+        return citiesItems?.size ?: 0
     }
 
     class ViewHolderOne(viewOne: View) : RecyclerView.ViewHolder(viewOne) {
@@ -29,26 +29,22 @@ class BriefAdapter(var context: Context, var briefcitieslist: ArrayList<Final>?,
         val textViewDescriptionBrief: TextView = viewOne.findViewById(R.id.text_view_description_brief)
         val textViewTempBrief: TextView = viewOne.findViewById(R.id.text_view_temp_brief)
         val textViewTempMaxBrief: TextView = viewOne.findViewById(R.id.text_view_temp_max_brief)
-//        val tvTempMinB: TextView = viewOne.findViewById(R.id.tv_temp)
+        val textViewTempMinBrief: TextView = viewOne.findViewById(R.id.text_view_temp_min_brief)
+
 
         //
-        fun bind(
-            final: Final,
-            onClickListener: OnClickListener?,
-        ) {
-            val final1 = final?.items?.getOrNull(0)
-            if (final1?.type == ViewType.ONE) {
+        fun bind(citiesItems: CityItems) {
+            val cityItems = citiesItems?.cityItems?.getOrNull(0)
 
-                val headerData = final1.data as Header
-                textViewCityBrief.text = headerData.cityName
-                textViewTempBrief.text = headerData.currentTemp
-                textViewDescriptionBrief.text = headerData.description
-                textViewTempMaxBrief.text = headerData.tempMax
-
-                itemView.setOnClickListener {
-                    onClickListener?.onClick(final)
-                }
+            if (cityItems?.type == ViewType.ONE) {
+                val header = cityItems.item as Header
+                textViewCityBrief.text = header.cityName
+                textViewTempBrief.text = header.currentTemp
+                textViewDescriptionBrief.text = header.description
+                textViewTempMaxBrief.text = "H:" + header.tempMax
+                textViewTempMinBrief.text = "L:" + header.tempMin
             }
+
         }
     }
 
@@ -58,25 +54,21 @@ class BriefAdapter(var context: Context, var briefcitieslist: ArrayList<Final>?,
         return ViewHolderOne(view1)
     }
 
-
     @SuppressLint("RestrictedApi")
     override fun onBindViewHolder(holder: ViewHolderOne, position: Int) {
-        val item = briefcitieslist?.get(position)
+        val item = citiesItems?.get(position)
         if (item != null) {
-            holder.bind(item, onClickListener)
+            holder.bind(item)
         }
 
         holder.llSelected.setOnClickListener {
-            var intent = Intent(context, ViewPagerActivity::class.java)
+            val intent = Intent(context, ViewPagerActivity::class.java)
             intent.putExtra(KEY_CITY_ITEM_POSITION, position)
             holder.llSelected.context.startActivity(intent)
 
         }
     }
 
-    class OnClickListener(val clickListener: (final: Final) -> Unit) {
-        fun onClick(final: Final) = clickListener(final)
-    }
 
 }
 

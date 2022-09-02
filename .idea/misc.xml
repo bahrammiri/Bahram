@@ -6,9 +6,14 @@
         <entry key="../../../../../layout/custom_preview.xml" value="0.1" />
         <entry key="../../../../layout/custom_preview.xml" value="0.12529976019184652" />
         <entry key="app/src/main/res/drawable-v24/round_su.xml" value="0.1635" />
+        <entry key="app/src/main/res/drawable/default_dot.xml" value="0.1965" />
+        <entry key="app/src/main/res/drawable/dot.xml" value="0.1965" />
+        <entry key="app/src/main/res/drawable/round_city.xml" value="0.2515" />
+        <entry key="app/src/main/res/drawable/selected_dot.xml" value="0.1965" />
+        <entry key="app/src/main/res/drawable/tab_selector.xml" value="0.1965" />
         <entry key="app/src/main/res/layout/activity_detail.xml" value="0.3151041666666667" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.3151041666666667" />
-        <entry key="app/src/main/res/layout/activity_view_pager.xml" value="0.31025641025641026" />
+        <entry key="app/src/main/res/layout/activity_view_pager.xml" value="0.25567770431290815" />
         <entry key="app/src/main/res/layout/detail_fragment.xml" value="0.2518518518518518" />
         <entry key="app/src/main/res/layout/item_detail_adapter.xml" value="0.3151041666666667" />
         <entry key="app/src/main/res/layout/item_view_brief.xml" value="0.3151041666666667" />
@@ -18,6 +23,7 @@
         <entry key="app/src/main/res/layout/preview_fragment.xml" value="0.23425925925925925" />
         <entry key="app/src/main/res/layout/recycler_view_days.xml" value="0.23425925925925925" />
         <entry key="app/src/main/res/layout/recycler_view_hours.xml" value="0.23425925925925925" />
+        <entry key="app/src/main/res/menu/menu_main.xml" value="0.3151041666666667" />
       </map>
     </option>
   </component>

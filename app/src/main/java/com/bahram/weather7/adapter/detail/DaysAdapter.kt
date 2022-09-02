@@ -1,17 +1,19 @@
 package com.bahram.weather7.adapter.detail
 
 import android.content.Context
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.bahram.weather7.R
 import com.bahram.weather7.model.Days
 import com.bumptech.glide.Glide
 
-class DaysAdapter(val context: Context, private val daysList: ArrayList<Days>?) :
+class DaysAdapter(private val context: Context, private val daysList: ArrayList<Days>?) :
     RecyclerView.Adapter<DaysAdapter.ViewHolderDays>() {
     class ViewHolderDays(view: View) : RecyclerView.ViewHolder(view) {
         var textViewNameDay: TextView = view.findViewById(R.id.text_view_name_day)
@@ -21,18 +23,17 @@ class DaysAdapter(val context: Context, private val daysList: ArrayList<Days>?) 
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderDays {
-        var view =
+        val view =
             LayoutInflater.from(parent.context).inflate(R.layout.item_view_days, parent, false)
         return ViewHolderDays(view)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: ViewHolderDays, position: Int) {
         val item = daysList?.get(position)
 
         holder.textViewNameDay.text = item?.day
-        Glide.with(context)
-            .load(item?.iconDay)
-            .into(holder.imageViewIconDay)
+        Glide.with(context).load(item?.iconDay).into(holder.imageViewIconDay)
         holder.textViewTempMinDay.text = item?.tempMinDay
         holder.textViewTempMaxDay.text = item?.tempMaxDay
     }

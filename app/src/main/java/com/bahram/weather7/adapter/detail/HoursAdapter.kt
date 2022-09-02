@@ -11,7 +11,7 @@ import com.bahram.weather7.R
 import com.bahram.weather7.model.Hours
 import com.bumptech.glide.Glide
 
-class HoursAdapter(val context: Context, private val hoursList: ArrayList<Hours>) :
+class HoursAdapter(private val context: Context, private val hoursList: ArrayList<Hours>) :
     RecyclerView.Adapter<HoursAdapter.ViewHolderHours>() {
     class ViewHolderHours(view: View) : RecyclerView.ViewHolder(view) {
         var textViewHour: TextView = view.findViewById(R.id.text_view_hour)
@@ -20,13 +20,13 @@ class HoursAdapter(val context: Context, private val hoursList: ArrayList<Hours>
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderHours {
-        var view =
+        val view =
             LayoutInflater.from(parent.context).inflate(R.layout.item_view_hours, parent, false)
         return ViewHolderHours(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolderHours, position: Int) {
-        val item = hoursList.get(position)
+        val item = hoursList[position]
 
         holder.textViewHour.text = item.hour
         Glide.with(context)

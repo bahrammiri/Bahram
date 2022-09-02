@@ -4,42 +4,57 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    app:cardCornerRadius="10dp">
+    android:layout_marginLeft="16dp"
+    android:layout_marginTop="4dp"
+    android:layout_marginRight="16dp"
+    android:layout_marginBottom="4dp"
+    app:cardCornerRadius="16dp"
+    >
 
     <LinearLayout
         android:id="@+id/linear_layout_brief"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/purple_200"
+        android:layout_height="100dp"
+        android:background="#66ADE6"
+        android:baselineAligned="false"
         android:orientation="horizontal"
-        android:weightSum="2">
+        android:weightSum="4"
+        >
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="3"
             android:orientation="vertical"
-            android:weightSum="4">
+            android:weightSum="7">
 
             <TextView
                 android:id="@+id/text_view_city_brief"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_gravity="center"
-                android:layout_weight="3"
-                android:gravity="center"
-                android:textSize="20dp"
-                tools:text="cityname" />
+                android:layout_weight="5"
+                android:gravity="top|start"
+                android:padding="12dp"
+                android:textAlignment="textStart"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                tools:text="cityname"
+                android:textColor="@color/white"/>
 
             <TextView
                 android:id="@+id/text_view_description_brief"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
-                tools:text="2" />
+                android:layout_weight="2"
+                android:gravity="top|start"
+                android:paddingLeft="12dp"
+                android:textAlignment="textStart"
+                android:textSize="16sp"
+                tools:text="bahram"
+                android:textColor="@color/white"/>
 
         </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="0dp"
@@ -48,23 +63,25 @@
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical"
-            android:weightSum="4">
+            android:weightSum="7">
 
             <TextView
                 android:id="@+id/text_view_temp_brief"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_gravity="center"
-                android:layout_weight="3"
-                android:gravity="center"
-                android:textAlignment="center"
-                android:textSize="20dp"
-                tools:text="1" />
+                android:layout_weight="5"
+                android:gravity="top|center"
+                android:padding="12dp"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                tools:text="1"
+                android:textColor="@color/white"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:orientation="horizontal"
                 android:weightSum="11"
                 tools:text="2">
@@ -73,11 +90,12 @@
                     android:id="@+id/text_view_temp_max_brief"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
+                    android:layout_gravity="top|end"
                     android:layout_weight="5"
                     android:text="4"
                     android:textAlignment="textEnd"
                     android:textColor="@color/white"
-                    android:textSize="16dp" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -90,11 +108,12 @@
                     android:id="@+id/text_view_temp_min_brief"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
+                    android:layout_gravity="top|start"
                     android:layout_weight="5"
                     android:text="5"
                     android:textAlignment="textStart"
                     android:textColor="@color/white"
-                    android:textSize="26dp" />
+                    android:textSize="12sp" />
 
             </LinearLayout>
 
