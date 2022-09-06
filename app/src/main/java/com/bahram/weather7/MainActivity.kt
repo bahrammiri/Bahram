@@ -19,7 +19,7 @@ import com.bahram.weather7.model.WeatherResponse
 import com.bahram.weather7.retrofit.Constants
 import com.bahram.weather7.retrofit.RetrofitService
 import com.bahram.weather7.util.SharedPreferencesManager
-import com.bahram.weather7.util.WeatherResponseItemCreator
+import com.bahram.weather7.util.WeatherResponseItemMapper
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -117,11 +117,11 @@ class MainActivity : AppCompatActivity() {
 
         weatherResponses.forEach { response ->
             val cityItems = arrayListOf<CityItem>()
-            val weatherResponseItemCreator = WeatherResponseItemCreator()
+            val weatherResponseItemMapper = WeatherResponseItemMapper()
 
-            cityItems.add(CityItem(ViewType.ONE, weatherResponseItemCreator.createHeaderList(response)))
-            cityItems.add(CityItem(ViewType.TWO, weatherResponseItemCreator.createHoursList(response)))
-            cityItems.add(CityItem(ViewType.THREE, weatherResponseItemCreator.createDaysList(response)))
+            cityItems.add(CityItem(ViewType.ONE, weatherResponseItemMapper.createHeaderList(response)))
+            cityItems.add(CityItem(ViewType.TWO, weatherResponseItemMapper.createHoursList(response)))
+            cityItems.add(CityItem(ViewType.THREE, weatherResponseItemMapper.createDaysList(response)))
 
             citiesItems?.add(CityItems(cityItems))
         }

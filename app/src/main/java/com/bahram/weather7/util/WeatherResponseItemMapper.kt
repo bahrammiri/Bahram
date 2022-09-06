@@ -9,7 +9,7 @@ import com.bahram.weather7.model.WeatherResponse
 import java.util.*
 import kotlin.collections.ArrayList
 
-class WeatherResponseItemCreator {
+class WeatherResponseItemMapper {
 
     fun createHeaderList(response: WeatherResponse?): Header {
         var tempCurrent = response?.list?.getOrNull(0)?.main?.temp ?: 0.0

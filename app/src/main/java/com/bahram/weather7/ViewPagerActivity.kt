@@ -3,7 +3,7 @@ package com.bahram.weather7
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.view.Menu
+import android.widget.Button
 import android.widget.Toolbar
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -13,7 +13,7 @@ import com.bahram.weather7.model.CityItem
 import com.bahram.weather7.model.CityItems
 import com.bahram.weather7.model.ViewType
 import com.bahram.weather7.util.SharedPreferencesManager
-import com.bahram.weather7.util.WeatherResponseItemCreator
+import com.bahram.weather7.util.WeatherResponseItemMapper
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -42,9 +42,9 @@ class ViewPagerActivity : AppCompatActivity() {
 
         val viewPager2 = findViewById<ViewPager2>(R.id.view_pager)
         val tabLayout = findViewById<TabLayout>(R.id.tab_layout)
-        val myToolbar = findViewById<Toolbar>(R.id.my_toolbar)
+        val buttonBack = findViewById<Button>(R.id.button_back)
 
-        myToolbar.setOnClickListener{
+        buttonBack.setOnClickListener{
             var intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
@@ -66,18 +66,12 @@ class ViewPagerActivity : AppCompatActivity() {
         citiesItems = arrayListOf()
         weatherResponses.forEach { response ->
             val cityItems = arrayListOf<CityItem>()
-            val weatherResponseItemCreator = WeatherResponseItemCreator()
-            cityItems.add(CityItem(ViewType.ONE, weatherResponseItemCreator.createHeaderList(response)))
-            cityItems.add(CityItem(ViewType.TWO, weatherResponseItemCreator.createHoursList(response)))
-            cityItems.add(CityItem(ViewType.THREE, weatherResponseItemCreator.createDaysList(response)))
+            val weatherResponseItemMapper = WeatherResponseItemMapper()
+            cityItems.add(CityItem(ViewType.ONE, weatherResponseItemMapper.createHeaderList(response)))
+            cityItems.add(CityItem(ViewType.TWO, weatherResponseItemMapper.createHoursList(response)))
+            cityItems.add(CityItem(ViewType.THREE, weatherResponseItemMapper.createDaysList(response)))
             citiesItems?.add(CityItems(cityItems))
         }
     }
-
-//    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-//        menuInflater.inflate(R.menu.menu_main,menu)
-//        return super.onCreateOptionsMenu(menu)
-//    }
-
 
 }

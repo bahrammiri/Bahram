@@ -13,7 +13,7 @@ import com.bahram.weather7.adapter.PreviewFragmentAdapter
 import com.bahram.weather7.model.CityItem
 import com.bahram.weather7.model.ViewType
 import com.bahram.weather7.model.WeatherResponse
-import com.bahram.weather7.util.WeatherResponseItemCreator
+import com.bahram.weather7.util.WeatherResponseItemMapper
 
 class PreviewFragment : Fragment() {
 
@@ -46,10 +46,10 @@ class PreviewFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     fun loadCityItemsForPreview(response: WeatherResponse?): ArrayList<CityItem> {
         val cityItems = arrayListOf<CityItem>()
-        val weatherResponseItemCreator = WeatherResponseItemCreator()
-        cityItems.add(CityItem(ViewType.ONE, weatherResponseItemCreator.createHeaderList(response)))
-        cityItems.add(CityItem(ViewType.TWO, weatherResponseItemCreator.createHoursList(response)))
-        cityItems.add(CityItem(ViewType.THREE, weatherResponseItemCreator.createDaysList(response)))
+        val weatherResponseItemMapper = WeatherResponseItemMapper()
+        cityItems.add(CityItem(ViewType.ONE, weatherResponseItemMapper.createHeaderList(response)))
+        cityItems.add(CityItem(ViewType.TWO, weatherResponseItemMapper.createHoursList(response)))
+        cityItems.add(CityItem(ViewType.THREE, weatherResponseItemMapper.createDaysList(response)))
 
         return cityItems
     }
