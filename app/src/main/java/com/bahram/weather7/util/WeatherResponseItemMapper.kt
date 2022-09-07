@@ -7,14 +7,13 @@ import com.bahram.weather7.model.Header
 import com.bahram.weather7.model.Hours
 import com.bahram.weather7.model.WeatherResponse
 import java.util.*
-import kotlin.collections.ArrayList
 
 class WeatherResponseItemMapper {
 
     fun createHeaderList(response: WeatherResponse?): Header {
-        var tempCurrent = response?.list?.getOrNull(0)?.main?.temp ?: 0.0
-        var tempMin = response?.list?.getOrNull(0)?.main?.tempMin ?: 0.0
-        var tempMax = response?.list?.getOrNull(0)?.main?.tempMax ?: 0.0
+        val tempCurrent = response?.list?.getOrNull(0)?.main?.temp ?: 0.0
+        val tempMin = response?.list?.getOrNull(0)?.main?.tempMin ?: 0.0
+        val tempMax = response?.list?.getOrNull(0)?.main?.tempMax ?: 0.0
 
         return Header(response?.city?.name ?: "*",
             response?.city?.country ?: "*",
