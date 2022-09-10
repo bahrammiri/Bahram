@@ -11,15 +11,14 @@ class SharedPreferencesManager(context: Context) {
     var sharedPreferences: SharedPreferences
 
     init {
-        sharedPreferences =
-            context.getSharedPreferences("sharedResponse", AppCompatActivity.MODE_PRIVATE)
+        sharedPreferences = context.getSharedPreferences("sharedResponse", AppCompatActivity.MODE_PRIVATE)
     }
 
     fun saveCityResponse(cityName: String, weatherResponse: WeatherResponse) {
         sharedPreferences.edit().putString(cityName, Gson().toJson(weatherResponse)).apply()
     }
 
-    fun loadCityResponse(cityName: String): WeatherResponse {
+    private fun loadCityResponse(cityName: String): WeatherResponse {
         val weatherResponseString = sharedPreferences.getString(cityName, null)
         return Gson().fromJson(weatherResponseString, WeatherResponse::class.java)
     }

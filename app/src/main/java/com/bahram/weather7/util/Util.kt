@@ -1,31 +1,21 @@
 package com.bahram.weather7.util
 
-import android.os.Build
-import androidx.annotation.RequiresApi
-import java.time.Instant
-import java.time.ZoneId
+import java.text.SimpleDateFormat
+import java.util.*
 
 class Util {
     companion object {
-        //TODO bahram should change
-        @RequiresApi(Build.VERSION_CODES.O)
         fun timeStampToLocalHour(timeStamp: Long): String {
-            val localTime = timeStamp.let {
-                Instant.ofEpochSecond(it)
-                    .atZone(ZoneId.systemDefault()).toLocalTime()
-            }
-            return localTime.toString()
+            val cal = Calendar.getInstance(Locale.ENGLISH)
+            cal.timeInMillis = timeStamp * 1000
+            val hours = cal[Calendar.HOUR].toString()
+            val minutes = cal[Calendar.MINUTE].toString()
+            return "$hours:$minutes"
         }
 
-        @RequiresApi(Build.VERSION_CODES.O)
         fun timeStampToLocalDay(timeStamp: Long): String {
-            val localTime = timeStamp.let {
-                Instant.ofEpochSecond(it).atZone(ZoneId.systemDefault()).dayOfWeek
-            }
-            return localTime.toString().lowercase()
+            return SimpleDateFormat("EEE", Locale.ENGLISH).format(timeStamp * 1000)
         }
-
     }
-
 }
 
