@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.bahram.weather7.ViewPagerActivity
 import com.bahram.weather7.ViewPagerActivity.Companion.KEY_CITY_ITEM_POSITION
@@ -11,6 +13,7 @@ import com.bahram.weather7.databinding.ItemViewBriefBinding
 import com.bahram.weather7.model.CityItems
 import com.bahram.weather7.model.Header
 import com.bahram.weather7.model.ViewType
+
 
 class BriefAdapter(var context: Context, var citiesItems: ArrayList<CityItems>?) :
     RecyclerView.Adapter<BriefAdapter.ViewHolderOne>() {
@@ -26,6 +29,7 @@ class BriefAdapter(var context: Context, var citiesItems: ArrayList<CityItems>?)
 //        private val textViewTempBrief: TextView = viewOne.findViewById(R.id.text_view_temp_brief)
 //        private val textViewTempMaxBrief: TextView = viewOne.findViewById(R.id.text_view_temp_max_brief)
 //        private val textViewTempMinBrief: TextView = viewOne.findViewById(R.id.text_view_temp_min_brief)
+
 
         fun bind(citiesItems: CityItems) {
             val cityItems = citiesItems.cityItems.getOrNull(0)

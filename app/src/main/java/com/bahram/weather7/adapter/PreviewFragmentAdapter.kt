@@ -7,12 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bahram.weather7.MainActivity
 import com.bahram.weather7.adapter.detail.DaysAdapter
 import com.bahram.weather7.adapter.detail.HoursAdapter
 import com.bahram.weather7.databinding.ItemViewHeaderBinding
 import com.bahram.weather7.databinding.RecyclerViewDaysBinding
 import com.bahram.weather7.databinding.RecyclerViewHoursBinding
+import com.bahram.weather7.main.MainActivity
 import com.bahram.weather7.model.*
 import com.bahram.weather7.util.SharedPreferencesManager
 
@@ -51,7 +51,6 @@ class PreviewFragmentAdapter(
     class ViewHolderThree(val binding3: RecyclerViewDaysBinding) : RecyclerView.ViewHolder(binding3.root) {
 //        val recyclerViewDays: RecyclerView = viewThree.findViewById(R.id.recycler_view_days)
     }
-
 
     override fun getItemViewType(position: Int): Int {
         val item = cityItems?.get(position)

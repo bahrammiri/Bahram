@@ -5,7 +5,7 @@ import com.bahram.weather7.model.*
 
 class WeatherResponseItemMapper {
     companion object {
-        fun loadCitiesItems(context: Context): ArrayList<CityItems>?{
+        fun loadCitiesItems(context: Context): ArrayList<CityItems>? {
             val sh = SharedPreferencesManager(context)
             val weatherResponses = sh.loadCitiesResponses()
             val citiesItems = ArrayList<CityItems>()

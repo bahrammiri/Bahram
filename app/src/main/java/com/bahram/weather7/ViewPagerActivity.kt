@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.bahram.weather7.adapter.ViewPagerAdapter
 import com.bahram.weather7.databinding.ActivityViewPagerBinding
+import com.bahram.weather7.main.MainActivity
 import com.bahram.weather7.model.CityItems
 import com.bahram.weather7.util.WeatherResponseItemMapper
 import com.google.android.material.tabs.TabLayoutMediator

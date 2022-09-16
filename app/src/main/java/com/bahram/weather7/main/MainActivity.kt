@@ -1,20 +1,24 @@
-package com.bahram.weather7
+package com.bahram.weather7.main
 
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bahram.weather7.PreviewFragment.Companion.KEY_DATA
+import com.bahram.weather7.R
 import com.bahram.weather7.adapter.BriefAdapter
 import com.bahram.weather7.databinding.ActivityMainBinding
 import com.bahram.weather7.model.CityItems
 import com.bahram.weather7.model.WeatherResponse
+import com.bahram.weather7.preview.PreviewFragment
+import com.bahram.weather7.preview.PreviewFragment.Companion.KEY_DATA
 import com.bahram.weather7.retrofit.Constants
 import com.bahram.weather7.retrofit.RetrofitService
 import com.bahram.weather7.util.WeatherResponseItemMapper
+import com.google.android.material.snackbar.Snackbar
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -22,7 +26,6 @@ import retrofit2.Response
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-
     var citiesItems: ArrayList<CityItems>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,11 +35,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         citiesItems = WeatherResponseItemMapper.loadCitiesItems(this)
-
         if (citiesItems != null) {
-            binding.recyclerViewBrief.visibility = View.VISIBLE
-            binding.recyclerViewBrief.adapter = BriefAdapter(this, citiesItems)
-            binding.recyclerViewBrief.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+            val briefFragment = BriefFragment()
+            val fragmentTransaction = supportFragmentManager.beginTransaction()
+            fragmentTransaction.replace(R.id.fragment_container_brief, briefFragment)
+            fragmentTransaction.commit()
+
         }
 
         binding.editTextCityName.setOnEditorActionListener { v, actionId, keyEvent ->
@@ -70,7 +74,7 @@ class MainActivity : AppCompatActivity() {
                     val responseBody = response.body()
                     if (responseBody != null) {
                         supportActionBar?.setDisplayShowTitleEnabled(false)
-                        supportActionBar?.hide();
+                        supportActionBar?.hide()
                         actionBar?.hide()
 
                         sendCityResponseToPreviewFragment(responseBody)
@@ -88,9 +92,9 @@ class MainActivity : AppCompatActivity() {
         bundle.putParcelable(KEY_DATA, response)
         val previewFragment = PreviewFragment()
         previewFragment.arguments = bundle
-        val fragmentTransaction = supportFragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container, previewFragment)
-        fragmentTransaction.commit();
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.fragment_container_preview, previewFragment)
+        fragmentTransaction.commit()
     }
 }
 
