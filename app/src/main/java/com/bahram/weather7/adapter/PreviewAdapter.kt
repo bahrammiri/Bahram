@@ -16,10 +16,10 @@ import com.bahram.weather7.main.MainActivity
 import com.bahram.weather7.model.*
 import com.bahram.weather7.util.SharedPreferencesManager
 
-class PreviewFragmentAdapter(
+class PreviewAdapter(
     var context: Context,
     var cityItems: ArrayList<CityItem>?,
-    private val cityResponse: WeatherResponse? = null,
+//    private val cityResponse: WeatherResponse? = null,
     private val KEY_STATE: String? = null,
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -110,7 +110,8 @@ class PreviewFragmentAdapter(
                 } else {
                     viewHolder1.binding1.textViewAdd.setOnClickListener {
                         val sh = SharedPreferencesManager(context)
-                        sh.saveCityResponse(header?.cityName.toString(), cityResponse!!)
+//                        sh.saveCityResponse(header?.cityName.toString(), cityResponse!!)
+                        sh.saveCityName(header?.cityName.toString(), header?.cityName.toString())
 
                         val intent = Intent(context, MainActivity::class.java)
                         viewHolder1.binding1.textViewAdd.context.startActivity(intent)

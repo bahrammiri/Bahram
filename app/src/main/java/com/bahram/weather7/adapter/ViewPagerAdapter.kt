@@ -38,8 +38,8 @@ class ViewPagerAdapter(
             RecyclerView.VERTICAL,
             false
         )
-        val previewFragmentAdapter = PreviewFragmentAdapter(context, item?.cityItems, null, PreviewFragmentAdapter.VALUE_STATE_DETAIL_MODE)
-        holder.binding.recyclerViewDetail.adapter = previewFragmentAdapter
+        val previewAdapter = PreviewAdapter(context, item?.cityItems, PreviewAdapter.VALUE_STATE_DETAIL_MODE)
+        holder.binding.recyclerViewDetail.adapter = previewAdapter
     }
 
     override fun getItemCount(): Int = viewPagerList?.size ?: 0

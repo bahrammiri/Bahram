@@ -7,10 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bahram.weather7.adapter.PreviewFragmentAdapter
+import androidx.recyclerview.widget.RecyclerView
+import com.bahram.weather7.adapter.PreviewAdapter
 import com.bahram.weather7.databinding.FragmentPreviewBinding
-import com.bahram.weather7.model.WeatherResponse
-import com.bahram.weather7.util.WeatherResponseItemMapper
 
 class PreviewFragment : Fragment() {
 
@@ -31,21 +30,24 @@ class PreviewFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val cityResponse = arguments?.getParcelable<WeatherResponse>(KEY_DATA)
+//        val cityNameInputted = arguments?.getString(KEY_DATA)
+        val cityNameInputted = requireArguments().getString(KEY_DATA)
 
         viewModel = ViewModelProvider(requireActivity()).get(PreviewViewModel::class.java)
-        viewModel.newResponse(cityResponse)
 
-        viewModel.response.observe(viewLifecycleOwner) {
-            val previewFragmentAdapter = PreviewFragmentAdapter(requireContext(), WeatherResponseItemMapper.loadCityItems(it), it)
-            binding.recyclerViewPreview.adapter = previewFragmentAdapter
-            binding.recyclerViewPreview.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        viewModel.cityItems.observe(viewLifecycleOwner) {
+            val previewAdapter = PreviewAdapter(requireContext(), viewModel.cityItems.value, null)
+            binding.recyclerViewPreview.adapter = previewAdapter
+            binding.recyclerViewPreview.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+            previewAdapter.notifyDataSetChanged()
         }
+        cityNameInputted?.let { viewModel.loadCityItems(it) }
 
-//        val previewFragmentAdapter = PreviewFragmentAdapter(requireContext(), WeatherResponseItemMapper.loadCityItems(cityResponse), cityResponse)
+//        val previewFragmentAdapter = PreviewAdapter(requireContext(), WeatherResponseItemMapper.loadCityItems(cityResponse), cityResponse)
 //        binding.recyclerViewPreview.adapter = previewFragmentAdapter
 //        binding.recyclerViewPreview.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
     }
+
 }
 

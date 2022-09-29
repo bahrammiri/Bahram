@@ -1,31 +1,73 @@
 package com.bahram.weather7.util
 
-import android.content.Context
 import com.bahram.weather7.model.*
 
 class WeatherResponseItemMapper {
     companion object {
-        fun loadCitiesItems(context: Context): ArrayList<CityItems>? {
-            val sh = SharedPreferencesManager(context)
-            val weatherResponses = sh.loadCitiesResponses()
-            val citiesItems = ArrayList<CityItems>()
-            weatherResponses.forEach { response ->
-                citiesItems.add(CityItems(loadCityItems(response)))
-            }
-            return citiesItems
-        }
+
+//        fun loadCitiesItems2(context: Context): ArrayList<CityItems> {
+//            val citiesResponses = getCitiesResponse(context)
+//            val cityItems = ArrayList<CityItems>()
+//            citiesResponses?.forEach { response ->
+//                cityItems.add(CityItems(loadCityItems(response)))
+//            }
+//            return cityItems
+//        }
+
+//        fun loadCitiesItems2(context: Context): ArrayList<CityItems> {
+//            val sh = SharedPreferencesManager(context)
+//            val cities = sh.loadCitiesNames()
+//            val cityItems = ArrayList<CityItems>()
+//            cities.forEach {
+//                RetrofitService.getInstance()
+//                    .getCityWeatherData(cities.getOrNull(0)?.cityNameSelected.toString(), api_key = Constants.API_KEY, units = Constants.UNITS)
+//                    .enqueue(object :
+//                        Callback<WeatherResponse> {
+//                        override fun onResponse(
+//                            call: Call<WeatherResponse>,
+//                            response: Response<WeatherResponse>,
+//                        ) {
+//                            var responseBody = response.body()
+//                            if (responseBody != null) {
+//
+//                                cityItems.add(CityItems(loadCityItems(responseBody)))
+//
+//
+//                            }
+//                        }
+//
+//                        override fun onFailure(call: Call<WeatherResponse>, t: Throwable) {
+//                        }
+//
+//                    })
+//            }
+//
+//            return cityItems
+//        }
+
+//
+
+//        fun loadCitiesItems(context: Context): ArrayList<CityItems>? {
+//            val sh = SharedPreferencesManager(context)
+//            val weatherResponses = sh.loadCitiesResponses()
+//            val cityItems = ArrayList<CityItems>()
+//            weatherResponses.forEach { response ->
+//                cityItems.add(CityItems(loadCityItems(response)))
+//            }
+//            return cityItems
+//        }
 
         //    private fun loadCitiesItems() {
 //        val sh = SharedPreferencesManager(this)
 //        val weatherResponses = sh.loadCitiesResponses()
-//        citiesItems = arrayListOf()
+//        cityItems = arrayListOf()
 //        weatherResponses.forEach { response ->
 //            val cityItems = arrayListOf<CityItem>()
 //            val weatherResponseItemMapper = WeatherResponseItemMapper()
 //            cityItems.add(CityItem(ViewType.ONE, weatherResponseItemMapper.createHeaderList(response)))
 //            cityItems.add(CityItem(ViewType.TWO, weatherResponseItemMapper.createHoursList(response)))
 //            cityItems.add(CityItem(ViewType.THREE, weatherResponseItemMapper.createDaysList(response)))
-//            citiesItems?.add(CityItems(cityItems))
+//            cityItems?.add(CityItems(cityItems))
 //        }
 //    }
 

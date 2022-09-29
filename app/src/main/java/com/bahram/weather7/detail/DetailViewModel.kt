@@ -1,8 +1,7 @@
-package com.bahram.weather7.preview
+package com.bahram.weather7.detail
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.bahram.weather7.model.CityItem
 import com.bahram.weather7.model.CityItems
 import com.bahram.weather7.model.WeatherResponse
 import com.bahram.weather7.retrofit.Constants
@@ -13,13 +12,15 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class PreviewViewModel : ViewModel() {
+class DetailViewModel : ViewModel() {
 
-    var cityItems = MutableLiveData<ArrayList<CityItem>>()
+    var citiesItems = MutableLiveData<ArrayList<CityItems>>()
 
-    fun loadCityItems(cityNameInputted: String) {
+    fun loadCitiesItems(cities: ArrayList<SharedPreferencesManager.CityName>) {
+        val citiesItems = ArrayList<CityItems>()
+        cities.forEach {
             RetrofitService.getInstance()
-                .getCityWeatherData(cityNameInputted, api_key = Constants.API_KEY, units = Constants.UNITS)
+                .getCityWeatherData(it.cityNameSelected, api_key = Constants.API_KEY, units = Constants.UNITS)
                 .enqueue(object :
                     Callback<WeatherResponse> {
                     override fun onResponse(
@@ -28,13 +29,18 @@ class PreviewViewModel : ViewModel() {
                     ) {
                         val responseBody = response.body()
                         if (responseBody != null) {
-                           cityItems.value = WeatherResponseItemMapper.loadCityItems(responseBody)
+                            citiesItems.add(CityItems(WeatherResponseItemMapper.loadCityItems(responseBody)))
+                            this@DetailViewModel.citiesItems.value = citiesItems
                         }
                     }
+
                     override fun onFailure(call: Call<WeatherResponse>, t: Throwable) {
                     }
                 })
         }
+
+
     }
 
 
+}

@@ -4,12 +4,10 @@ import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.bahram.weather7.ViewPagerActivity
-import com.bahram.weather7.ViewPagerActivity.Companion.KEY_CITY_ITEM_POSITION
 import com.bahram.weather7.databinding.ItemViewBriefBinding
+import com.bahram.weather7.detail.DetailActivity
+import com.bahram.weather7.detail.DetailActivity.Companion.KEY_CITY_ITEM_POSITION
 import com.bahram.weather7.model.CityItems
 import com.bahram.weather7.model.Header
 import com.bahram.weather7.model.ViewType
@@ -62,7 +60,7 @@ class BriefAdapter(var context: Context, var citiesItems: ArrayList<CityItems>?)
         }
 
         holder.bindig.briefLayout.setOnClickListener {
-            val intent = Intent(context, ViewPagerActivity::class.java)
+            val intent = Intent(context, DetailActivity::class.java)
             intent.putExtra(KEY_CITY_ITEM_POSITION, position)
             holder.bindig.briefLayout.context.startActivity(intent)
 
