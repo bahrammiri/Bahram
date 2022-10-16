@@ -8,23 +8,19 @@ import android.view.inputmethod.EditorInfo
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bahram.weather7.R
 import com.bahram.weather7.adapter.BriefAdapter
 import com.bahram.weather7.databinding.FragmentBriefBinding
-import com.bahram.weather7.model.CityItems
 import com.bahram.weather7.preview.PreviewFragment
 import com.bahram.weather7.preview.PreviewFragment.Companion.KEY_DATA
 import com.bahram.weather7.util.SharedPreferencesManager
-import com.google.android.material.snackbar.Snackbar
+import java.util.*
 
 class BriefFragment : Fragment() {
     lateinit var viewModel: BriefViewModel
     private lateinit var binding: FragmentBriefBinding
-    private lateinit var briefAdapter: BriefAdapter
-    var citiesItems: ArrayList<CityItems>? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?,
@@ -39,8 +35,6 @@ class BriefFragment : Fragment() {
         binding.editTextCityName.setOnEditorActionListener { v, actionId, keyEvent ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 val cityNameInputted = binding.editTextCityName.text.toString()
-
-//                if (cityNameInputted != null)
                 goToPreviewFragment(cityNameInputted)
 
 //                val view = this.currentFocus
@@ -61,38 +55,40 @@ class BriefFragment : Fragment() {
         viewModel = ViewModelProvider(requireActivity()).get(BriefViewModel::class.java)
         val sh = SharedPreferencesManager(requireContext())
         val selectedCities = sh.sharedPreferences.all
-        val cities = sh.loadCities()
+        val cities = sh.loadCities().sortedWith(compareBy { it.cityNameSelected })
 
         if (selectedCities != null) {
             viewModel.citiesItems.observe(viewLifecycleOwner) {
-                binding.recyclerViewBrief.visibility = View.VISIBLE
-                val briefAdapter = BriefAdapter(requireContext(), viewModel.citiesItems.value)
-                binding.recyclerViewBrief.adapter = briefAdapter
-                binding.recyclerViewBrief.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
-                briefAdapter.notifyDataSetChanged()
+                binding.progressBar.visibility = View.VISIBLE
+                if (cities.size == viewModel.citiesItems.value?.size) {
+                    binding.progressBar.visibility = View.INVISIBLE
+                    binding.recyclerViewBrief.visibility = View.VISIBLE
+
+//                    val newList: ArrayList<CityItems>? = viewModel.citiesItems.value
+//                    newList.forEach { for it.cityItems. in  }
+
+                    val briefAdapter = BriefAdapter(requireContext(), viewModel.citiesItems.value)
+                    binding.recyclerViewBrief.adapter = briefAdapter
+                    binding.recyclerViewBrief.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+//                    briefAdapter.notifyDataSetChanged()
+                }
             }
 
             viewModel.loadCitiesItems(cities)
 
         }
-
     }
 
     private fun goToPreviewFragment(cityNameInputted: String) {
-//        binding.editTextCityName.visibility = View.INVISIBLE
-//        binding.recyclerViewBrief.visibility = View.INVISIBLE
         val bundle = Bundle()
         bundle.putString(KEY_DATA, cityNameInputted)
         val previewFragment = PreviewFragment()
         previewFragment.arguments = bundle
         val transaction = (context as AppCompatActivity).supportFragmentManager.beginTransaction()
         transaction.replace(R.id.fragment_container_main, previewFragment)
-        transaction.addToBackStack(null)
         transaction.commit()
     }
 }
-
-
 
 //ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
 //    override fun onMove(

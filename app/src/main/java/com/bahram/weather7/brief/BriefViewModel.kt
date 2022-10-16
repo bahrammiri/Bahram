@@ -16,7 +16,7 @@ class BriefViewModel : ViewModel() {
 
     var citiesItems = MutableLiveData<ArrayList<CityItems>>()
 
-    fun loadCitiesItems(cities: ArrayList<SharedPreferencesManager.CityName>) {
+    fun loadCitiesItems(cities: List<SharedPreferencesManager.CityName>) {
         val citiesItems = ArrayList<CityItems>()
         cities.forEach {
             RetrofitService.getInstance()

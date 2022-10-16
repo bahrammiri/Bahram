@@ -1,13 +1,15 @@
 package com.bahram.weather7.adapter
 
 import android.content.Context
-import android.content.Intent
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.bahram.weather7.R
 import com.bahram.weather7.databinding.ItemViewBriefBinding
-import com.bahram.weather7.detail.DetailActivity
-import com.bahram.weather7.detail.DetailActivity.Companion.KEY_CITY_ITEM_POSITION
+import com.bahram.weather7.detail.DetailFragment
+import com.bahram.weather7.detail.DetailFragment.Companion.KEY_CITY_ITEM_POSITION
 import com.bahram.weather7.model.CityItems
 import com.bahram.weather7.model.Header
 import com.bahram.weather7.model.ViewType
@@ -60,9 +62,15 @@ class BriefAdapter(var context: Context, var citiesItems: ArrayList<CityItems>?)
         }
 
         holder.bindig.briefLayout.setOnClickListener {
-            val intent = Intent(context, DetailActivity::class.java)
-            intent.putExtra(KEY_CITY_ITEM_POSITION, position)
-            holder.bindig.briefLayout.context.startActivity(intent)
+
+            val bundle = Bundle()
+            bundle.putInt(KEY_CITY_ITEM_POSITION, position)
+            val detailFragment = DetailFragment()
+            detailFragment.arguments = bundle
+            val transaction = (context as AppCompatActivity).supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.fragment_container_main, detailFragment)
+            transaction.commit()
+//            holder.bindig.briefLayout.context.startActivity(intent)
 
         }
     }
