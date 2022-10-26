@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bahram.weather7.adapter.PreviewAdapter
@@ -20,6 +21,9 @@ class PreviewFragment : Fragment() {
         const val KEY_DATA = "KEY_DATA"
     }
 
+    val args: PreviewFragmentArgs by navArgs()
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?,
     ): View? {
@@ -31,7 +35,7 @@ class PreviewFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 //        val cityNameInputted = arguments?.getString(KEY_DATA)
-        val cityNameInputted = requireArguments().getString(KEY_DATA)
+        val cityNameInputted = args.cityNameIputted1
 
         viewModel = ViewModelProvider(requireActivity()).get(PreviewViewModel::class.java)
 

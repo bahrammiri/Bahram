@@ -3,6 +3,7 @@ package com.bahram.weather7.detail
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bahram.weather7.model.CityItems
+import com.bahram.weather7.model.Header
 import com.bahram.weather7.model.WeatherResponse
 import com.bahram.weather7.retrofit.Constants
 import com.bahram.weather7.retrofit.RetrofitService
@@ -13,10 +14,9 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class DetailViewModel : ViewModel() {
-
     var citiesItems = MutableLiveData<ArrayList<CityItems>>()
 
-    fun loadCitiesItems(cities: ArrayList<SharedPreferencesManager.CityName>) {
+    fun loadCitiesItems(cities: List<SharedPreferencesManager.CityName>) {
         val citiesItems = ArrayList<CityItems>()
         cities.forEach {
             RetrofitService.getInstance()
@@ -30,6 +30,11 @@ class DetailViewModel : ViewModel() {
                         val responseBody = response.body()
                         if (responseBody != null) {
                             citiesItems.add(CityItems(WeatherResponseItemMapper.loadCityItems(responseBody)))
+
+                            citiesItems.sortBy {
+                                (it.cityItems.getOrNull(0)?.item as Header).cityName
+                            }
+
                             this@DetailViewModel.citiesItems.value = citiesItems
                         }
                     }
@@ -44,3 +49,4 @@ class DetailViewModel : ViewModel() {
 
 
 }
+

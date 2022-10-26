@@ -9,10 +9,10 @@ import com.bahram.weather7.databinding.ItemDetailAdapterBinding
 import com.bahram.weather7.model.CityItems
 
 
-class ViewPagerAdapter(
+class DetailAdapter(
     var context: Context,
     private val viewPagerList: ArrayList<CityItems>?,
-) : RecyclerView.Adapter<ViewPagerAdapter.DetailViewHolder>() {
+) : RecyclerView.Adapter<DetailAdapter.DetailViewHolder>() {
 
 //    class DetailViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 //        val recyclerViewDetail: RecyclerView = itemView.findViewById(R.id.recycler_view_detail)

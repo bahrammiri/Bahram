@@ -9,21 +9,29 @@
         android:name="com.bahram.weather7.brief.BriefFragment"
         android:label="BriefFragment" >
         <action
-            android:id="@+id/action_briefFragment_to_previewFragment4"
+            android:id="@+id/action_briefFragment_to_previewFragment"
             app:destination="@id/previewFragment" />
         <action
             android:id="@+id/action_briefFragment_to_detailFragment"
-            app:destination="@id/detailFragment" />
-        <action
-            android:id="@+id/action_briefFragment_to_detailFragment2"
             app:destination="@id/detailFragment" />
     </fragment>
     <fragment
         android:id="@+id/previewFragment"
         android:name="com.bahram.weather7.preview.PreviewFragment"
-        android:label="PreviewFragment" />
+        android:label="PreviewFragment" >
+        <argument
+            android:name="cityNameIputted1"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_previewFragment_to_briefFragment"
+            app:destination="@id/briefFragment" />
+    </fragment>
     <fragment
         android:id="@+id/detailFragment"
         android:name="com.bahram.weather7.detail.DetailFragment"
-        android:label="DetailFragment" />
+        android:label="DetailFragment" >
+        <argument android:name="positionItem"
+            app:argType="integer" />
+
+    </fragment>
 </navigation>

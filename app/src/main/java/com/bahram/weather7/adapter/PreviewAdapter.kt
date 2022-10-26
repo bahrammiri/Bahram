@@ -5,15 +5,19 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bahram.weather7.adapter.detail.DaysAdapter
 import com.bahram.weather7.adapter.detail.HoursAdapter
+import com.bahram.weather7.brief.BriefFragmentDirections
 import com.bahram.weather7.databinding.ItemViewHeaderBinding
 import com.bahram.weather7.databinding.RecyclerViewDaysBinding
 import com.bahram.weather7.databinding.RecyclerViewHoursBinding
 import com.bahram.weather7.main.MainActivity
 import com.bahram.weather7.model.*
+import com.bahram.weather7.preview.PreviewFragmentDirections
 import com.bahram.weather7.util.SharedPreferencesManager
 
 class PreviewAdapter(
@@ -108,18 +112,32 @@ class PreviewAdapter(
                     viewHolder1.binding1.textViewAdd.visibility = View.INVISIBLE
                     viewHolder1.binding1.textViewCancel.visibility = View.INVISIBLE
                 } else {
+//                    viewHolder1.binding1.textViewAdd.setOnClickListener {
+//                        val sh = SharedPreferencesManager(context)
+////                        sh.saveCityResponse(header?.cityName.toString(), cityResponse!!)
+//                        sh.saveCityName(header?.cityName.toString(), header?.cityName.toString())
+//
+////                        val intent = Intent(context, MainActivity::class.java)
+////                        viewHolder1.binding1.textViewAdd.context.startActivity(intent)
+//
+//                    }
+
                     viewHolder1.binding1.textViewAdd.setOnClickListener {
+                            view ->
+
                         val sh = SharedPreferencesManager(context)
-//                        sh.saveCityResponse(header?.cityName.toString(), cityResponse!!)
                         sh.saveCityName(header?.cityName.toString(), header?.cityName.toString())
 
-                        val intent = Intent(context, MainActivity::class.java)
-                        viewHolder1.binding1.textViewAdd.context.startActivity(intent)
+
+                        view.findNavController().navigate(PreviewFragmentDirections.actionPreviewFragmentToBriefFragment())
                     }
 
                     viewHolder1.binding1.textViewCancel.setOnClickListener {
-                        val intent = Intent(context, MainActivity::class.java)
-                        viewHolder1.binding1.textViewCancel.context.startActivity(intent)
+                            view ->
+                        view.findNavController().navigate(PreviewFragmentDirections.actionPreviewFragmentToBriefFragment())
+
+//                        val intent = Intent(context, MainActivity::class.java)
+//                        viewHolder1.binding1.textViewCancel.context.startActivity(intent)
                     }
                 }
 

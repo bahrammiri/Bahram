@@ -5,18 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bahram.weather7.R
 import com.bahram.weather7.adapter.BriefAdapter
 import com.bahram.weather7.databinding.FragmentBriefBinding
-import com.bahram.weather7.preview.PreviewFragment
-import com.bahram.weather7.preview.PreviewFragment.Companion.KEY_DATA
 import com.bahram.weather7.util.SharedPreferencesManager
-import java.util.*
 
 class BriefFragment : Fragment() {
     lateinit var viewModel: BriefViewModel
@@ -35,7 +31,11 @@ class BriefFragment : Fragment() {
         binding.editTextCityName.setOnEditorActionListener { v, actionId, keyEvent ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 val cityNameInputted = binding.editTextCityName.text.toString()
-                goToPreviewFragment(cityNameInputted)
+//                goToPreviewFragment(cityNameInputted)
+
+                val action = BriefFragmentDirections.actionBriefFragmentToPreviewFragment(cityNameInputted)
+                Navigation.findNavController(view).navigate(action)
+//                Navigation.findNavController(view).navigate(R.id.action_briefFragment_to_previewFragment, cityNameInputted)
 
 //                val view = this.currentFocus
 //                val view1 = activity?.currentFocus
@@ -55,7 +55,7 @@ class BriefFragment : Fragment() {
         viewModel = ViewModelProvider(requireActivity()).get(BriefViewModel::class.java)
         val sh = SharedPreferencesManager(requireContext())
         val selectedCities = sh.sharedPreferences.all
-        val cities = sh.loadCities().sortedWith(compareBy { it.cityNameSelected })
+        val cities = sh.loadCities()
 
         if (selectedCities != null) {
             viewModel.citiesItems.observe(viewLifecycleOwner) {
@@ -79,15 +79,17 @@ class BriefFragment : Fragment() {
         }
     }
 
-    private fun goToPreviewFragment(cityNameInputted: String) {
-        val bundle = Bundle()
-        bundle.putString(KEY_DATA, cityNameInputted)
-        val previewFragment = PreviewFragment()
-        previewFragment.arguments = bundle
-        val transaction = (context as AppCompatActivity).supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.fragment_container_main, previewFragment)
-        transaction.commit()
-    }
+//    private fun goToPreviewFragment(cityNameInputted: String) {
+//        val bundle = Bundle()
+//        bundle.putString(KEY_DATA, cityNameInputted)
+//        val previewFragment = PreviewFragment()
+//        previewFragment.arguments = bundle
+//        val transaction = (context as AppCompatActivity).supportFragmentManager.beginTransaction()
+//        transaction.replace(R.id.fragment_container_main, previewFragment)
+//        transaction.commit()
+//    }
+
+
 }
 
 //ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
