@@ -65,6 +65,7 @@ class BriefAdapter(var context: Context, var citiesItems: ArrayList<CityItems>?)
 
         holder.bindig.briefLayout.setOnClickListener(
             Navigation.createNavigateOnClickListener(BriefFragmentDirections.actionBriefFragmentToDetailFragment(position))
+
         )
 
 

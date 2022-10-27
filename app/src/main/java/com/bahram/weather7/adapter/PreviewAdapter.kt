@@ -128,13 +128,16 @@ class PreviewAdapter(
                         val sh = SharedPreferencesManager(context)
                         sh.saveCityName(header?.cityName.toString(), header?.cityName.toString())
 
+//
+//                        view.findNavController().navigate(PreviewFragmentDirections.actionPreviewFragmentToBriefFragment())
 
-                        view.findNavController().navigate(PreviewFragmentDirections.actionPreviewFragmentToBriefFragment())
+                        view.findNavController().navigateUp()
                     }
 
                     viewHolder1.binding1.textViewCancel.setOnClickListener {
                             view ->
-                        view.findNavController().navigate(PreviewFragmentDirections.actionPreviewFragmentToBriefFragment())
+//                        view.findNavController().navigate(PreviewFragmentDirections.actionPreviewFragmentToBriefFragment())
+                        view.findNavController().navigateUp()
 
 //                        val intent = Intent(context, MainActivity::class.java)
 //                        viewHolder1.binding1.textViewCancel.context.startActivity(intent)
