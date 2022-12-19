@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bahram.weather7.databinding.ItemDetailAdapterBinding
 import com.bahram.weather7.model.CityItems
 
-
 class DetailAdapter(
     var context: Context,
     private val viewPagerList: ArrayList<CityItems>?,

@@ -23,7 +23,6 @@ class PreviewFragment : Fragment() {
 
     val args: PreviewFragmentArgs by navArgs()
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?,
     ): View? {
@@ -38,7 +37,7 @@ class PreviewFragment : Fragment() {
         val cityNameInputted = args.cityNameIputted1
 
         viewModel = ViewModelProvider(requireActivity()).get(PreviewViewModel::class.java)
-
+8
         viewModel.cityItems.observe(viewLifecycleOwner) {
             val previewAdapter = PreviewAdapter(requireContext(), viewModel.cityItems.value, null)
             binding.recyclerViewPreview.adapter = previewAdapter

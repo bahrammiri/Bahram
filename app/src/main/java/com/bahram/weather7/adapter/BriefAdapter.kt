@@ -32,7 +32,6 @@ class BriefAdapter(var context: Context, var citiesItems: ArrayList<CityItems>?)
 //        private val textViewTempMaxBrief: TextView = viewOne.findViewById(R.id.text_view_temp_max_brief)
 //        private val textViewTempMinBrief: TextView = viewOne.findViewById(R.id.text_view_temp_min_brief)
 
-
         fun bind(citiesItems: CityItems) {
             val cityItems = citiesItems.cityItems.getOrNull(0)
 
@@ -75,9 +74,7 @@ class BriefAdapter(var context: Context, var citiesItems: ArrayList<CityItems>?)
 ////            Navigation.createNavigateOnClickListener(action)
 //
 //            view.findNavController().navigate(action)
-//
-//
-//
+
 ////            val bundle = Bundle()
 ////            bundle.putInt(KEY_CITY_ITEM_POSITION, position)
 ////            val detailFragment = DetailFragment()

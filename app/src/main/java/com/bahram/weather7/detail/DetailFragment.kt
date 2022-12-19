@@ -18,7 +18,6 @@ class DetailFragment : Fragment() {
     private lateinit var binding: FragmentDetailBinding
     private lateinit var viewModel: DetailViewModel
 
-
     companion object {
         const val KEY_CITY_ITEM_POSITION = "KEY_CITY_ITEM_POSITION"
     }
