@@ -17,10 +17,6 @@ class PreviewFragment : Fragment() {
     private lateinit var binding: FragmentPreviewBinding
     lateinit var viewModel: PreviewViewModel
 
-    companion object {
-        const val KEY_DATA = "KEY_DATA"
-    }
-
     val args: PreviewFragmentArgs by navArgs()
 
     override fun onCreateView(
@@ -33,11 +29,10 @@ class PreviewFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        val cityNameInputted = arguments?.getString(KEY_DATA)
         val cityNameInputted = args.cityNameIputted1
 
         viewModel = ViewModelProvider(requireActivity()).get(PreviewViewModel::class.java)
-8
+
         viewModel.cityItems.observe(viewLifecycleOwner) {
             val previewAdapter = PreviewAdapter(requireContext(), viewModel.cityItems.value, null)
             binding.recyclerViewPreview.adapter = previewAdapter
@@ -45,6 +40,7 @@ class PreviewFragment : Fragment() {
             previewAdapter.notifyDataSetChanged()
         }
         cityNameInputted?.let { viewModel.loadCityItems(it) }
+//        viewModel.loadCityItems(cityNameInputted)
 
 //        val previewFragmentAdapter = PreviewAdapter(requireContext(), WeatherResponseItemMapper.loadCityItems(cityResponse), cityResponse)
 //        binding.recyclerViewPreview.adapter = previewFragmentAdapter

@@ -23,11 +23,7 @@ class BriefViewModel : ViewModel() {
 
     fun start(context: Context) {
         val sh = SharedPreferencesManager(context)
-        val selectedCities = sh.sharedPreferences.all
         val cities = sh.loadCities()
-//        if (selectedCities != null) {
-//
-//        }
         loadCitiesItems(cities)
     }
 

@@ -13,15 +13,7 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-//        goToBriefFragment()
+
     }
-
-//    private fun goToBriefFragment() {
-//        val briefFragment = BriefFragment()
-//        val fragmentTransaction = supportFragmentManager.beginTransaction()
-//        fragmentTransaction.replace(R.id.fragment_container_main, briefFragment)
-//        fragmentTransaction.commit()
-//    }
-
 }
 

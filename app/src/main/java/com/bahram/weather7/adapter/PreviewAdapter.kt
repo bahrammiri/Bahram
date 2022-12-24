@@ -23,7 +23,6 @@ import com.bahram.weather7.util.SharedPreferencesManager
 class PreviewAdapter(
     var context: Context,
     var cityItems: ArrayList<CityItem>?,
-//    private val cityResponse: WeatherResponse? = null,
     private val KEY_STATE: String? = null,
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -38,14 +37,6 @@ class PreviewAdapter(
     }
 
     class ViewHolderOne(val binding1: ItemViewHeaderBinding) : RecyclerView.ViewHolder(binding1.root) {
-//        val textViewCityCountry: TextView = viewOne.findViewById(R.id.text_view_city_country)
-//        val textViewTempCurrent: TextView = viewOne.findViewById(R.id.text_view_temp_current)
-//        val textViewDescription: TextView = viewOne.findViewById(R.id.text_view_description)
-//        val textViewTempMax: TextView = viewOne.findViewById(R.id.text_view_temp_max)
-//        val textViewTempMin: TextView = viewOne.findViewById(R.id.text_view_temp_min)
-//
-//        val textViewAdd: TextView = viewOne.findViewById(R.id.text_view_add)
-//        val textViewCancel: TextView = viewOne.findViewById(R.id.text_view_cancel)
     }
 
     class ViewHolderTwo(val binding2: RecyclerViewHoursBinding) : RecyclerView.ViewHolder(binding2.root) {
