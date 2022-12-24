@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
@@ -12,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bahram.weather7.adapter.BriefAdapter
 import com.bahram.weather7.databinding.FragmentBriefBinding
-import com.bahram.weather7.util.SharedPreferencesManager
 
 class BriefFragment : Fragment() {
     lateinit var viewModel: BriefViewModel
@@ -31,7 +31,6 @@ class BriefFragment : Fragment() {
         binding.editTextCityName.setOnEditorActionListener { v, actionId, keyEvent ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 val cityNameInputted = binding.editTextCityName.text.toString()
-//                goToPreviewFragment(cityNameInputted)
 
                 val action = BriefFragmentDirections.actionBriefFragmentToPreviewFragment(cityNameInputted)
                 Navigation.findNavController(view).navigate(action)
@@ -53,31 +52,44 @@ class BriefFragment : Fragment() {
         }
 
         viewModel = ViewModelProvider(requireActivity()).get(BriefViewModel::class.java)
-        val sh = SharedPreferencesManager(requireContext())
-        val selectedCities = sh.sharedPreferences.all
-        val cities = sh.loadCities()
 
-        if (selectedCities != null) {
-            viewModel.citiesItems.observe(viewLifecycleOwner) {
+        viewModel.isLoading.observe(viewLifecycleOwner) {
+            if (it == true) {
                 binding.progressBar.visibility = View.VISIBLE
-                if (cities.size == viewModel.citiesItems.value?.size) {
-                    binding.progressBar.visibility = View.INVISIBLE
-                    binding.recyclerViewBrief.visibility = View.VISIBLE
+            } else {
+                binding.progressBar.visibility = View.GONE
+            }
+
+        }
+        viewModel.errorMessage.observe(viewLifecycleOwner) {
+            if (it != "") {
+                Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+            }
+        }
+
+
+        viewModel.citiesItems.observe(viewLifecycleOwner) {
+//                binding.progressBar.visibility = View.VISIBLE
+//                if (cities.size == viewModel.citiesItems.value?.size) {
+//                    binding.progressBar.visibility = View.INVISIBLE
+            binding.recyclerViewBrief.visibility = View.VISIBLE
 
 //                    val newList: ArrayList<CityItems>? = viewModel.citiesItems.value
 //                    newList.forEach { for it.cityItems. in  }
 
-                    val briefAdapter = BriefAdapter(requireContext(), viewModel.citiesItems.value)
-                    binding.recyclerViewBrief.adapter = briefAdapter
-                    binding.recyclerViewBrief.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+            val briefAdapter = BriefAdapter(requireContext(), viewModel.citiesItems.value)
+            binding.recyclerViewBrief.adapter = briefAdapter
+            binding.recyclerViewBrief.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
 //                    briefAdapter.notifyDataSetChanged()
-                }
-            }
-
-            viewModel.loadCitiesItems(cities)
-
+//                }
         }
+
+
+        viewModel.start(requireContext())
+
+
     }
+
 
 //    private fun goToPreviewFragment(cityNameInputted: String) {
 //        val bundle = Bundle()
@@ -137,3 +149,4 @@ class BriefFragment : Fragment() {
 //    // at last we are adding this
 //    // to our recycler view.
 //}).attachToRecyclerView(binding.recyclerViewBrief)
+
