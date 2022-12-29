@@ -46,8 +46,10 @@ class BriefFragment : Fragment() {
         viewModel.isLoading.observe(viewLifecycleOwner) {
             if (it == true) {
                 binding.progressBarBrief.visibility = View.VISIBLE
+                binding.recyclerViewBrief.visibility = View.GONE
             } else {
                 binding.progressBarBrief.visibility = View.GONE
+                binding.recyclerViewBrief.visibility = View.VISIBLE
             }
 
         }
@@ -58,7 +60,7 @@ class BriefFragment : Fragment() {
         }
 
         viewModel.citiesItems.observe(viewLifecycleOwner) {
-            binding.recyclerViewBrief.visibility = View.VISIBLE
+
 
             val briefAdapter = BriefAdapter(requireContext(), viewModel.citiesItems.value)
             binding.recyclerViewBrief.adapter = briefAdapter

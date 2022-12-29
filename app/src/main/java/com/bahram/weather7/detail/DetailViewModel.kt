@@ -48,14 +48,12 @@ class DetailViewModel : ViewModel() {
                         if (responseBody != null) {
                             citiesItems.add(CityItems(WeatherResponseItemMapper.loadCityItems(responseBody)))
 
-                            citiesItems.sortBy {
-                                (it.cityItems.getOrNull(0)?.item as Header).cityName
-                            }
-
                             if (citiesItems.size == cities.size) {
                                 isLoading.value = false
                             }
-
+                            citiesItems.sortBy {
+                                (it.cityItems.getOrNull(0)?.item as Header).cityName
+                            }
                             this@DetailViewModel.citiesItems.value = citiesItems
                         }
                     }

@@ -47,11 +47,12 @@ class BriefViewModel : ViewModel() {
                             if (responseBody != null) {
                                 citiesItems.add(CityItems(WeatherResponseItemMapper.loadCityItems(responseBody)))
 
-                                citiesItems.sortBy {
-                                    (it.cityItems.getOrNull(0)?.item as Header).cityName
-                                }
+
                                 if (citiesItems.size == cities.size) {
                                     isLoading.value = false
+                                }
+                                citiesItems.sortBy {
+                                    (it.cityItems.getOrNull(0)?.item as Header).cityName
                                 }
 
                                 this@BriefViewModel.citiesItems.value = citiesItems

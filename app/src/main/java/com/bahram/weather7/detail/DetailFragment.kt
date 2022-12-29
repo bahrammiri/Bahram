@@ -45,8 +45,11 @@ class DetailFragment : Fragment() {
         viewModel.isLoading.observe(viewLifecycleOwner) {
             if (it == true) {
                 binding.progressBarDetail.visibility = View.VISIBLE
+                binding.viewPager2.visibility= View.GONE
+
             } else {
                 binding.progressBarDetail.visibility = View.GONE
+                binding.viewPager2.visibility= View.VISIBLE
             }
         }
 
@@ -56,14 +59,11 @@ class DetailFragment : Fragment() {
             }
         }
 
-
-
         viewModel.citiesItems.observe(viewLifecycleOwner) {
 
             binding.viewPager2.setCurrentItem(position, false)
             val detailAdapter = DetailAdapter(requireContext(), viewModel.citiesItems.value)
             binding.viewPager2.adapter = detailAdapter
-
 
             val tabLayoutMediator = TabLayoutMediator(binding.tabLayout, binding.viewPager2, true
             ) { tab, position -> }
