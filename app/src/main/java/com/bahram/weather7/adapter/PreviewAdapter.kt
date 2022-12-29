@@ -1,24 +1,16 @@
 package com.bahram.weather7.adapter
 
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.Navigation
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bahram.weather7.adapter.detail.DaysAdapter
 import com.bahram.weather7.adapter.detail.HoursAdapter
-import com.bahram.weather7.brief.BriefFragmentDirections
 import com.bahram.weather7.databinding.ItemViewHeaderBinding
 import com.bahram.weather7.databinding.RecyclerViewDaysBinding
 import com.bahram.weather7.databinding.RecyclerViewHoursBinding
-import com.bahram.weather7.main.MainActivity
 import com.bahram.weather7.model.*
-import com.bahram.weather7.preview.PreviewFragmentDirections
-import com.bahram.weather7.util.SharedPreferencesManager
 
 class PreviewAdapter(
     var context: Context,
@@ -66,19 +58,11 @@ class PreviewAdapter(
 
             ViewType.TWO.id,
             -> {
-//                val view2 =
-//                    LayoutInflater.from(parent.context).inflate(R.layout.recycler_view_hours, parent, false)
-//                ViewHolderTwo(view2)
-
                 val binding2 = RecyclerViewHoursBinding.inflate(LayoutInflater.from(parent.context), parent, false)
                 ViewHolderTwo(binding2)
             }
             else
             -> {
-//                val view3 =
-//                    LayoutInflater.from(parent.context).inflate(R.layout.recycler_view_days, parent, false)
-//                ViewHolderThree(view3)
-
                 val binding3 = RecyclerViewDaysBinding.inflate(LayoutInflater.from(parent.context), parent, false)
                 ViewHolderThree(binding3)
             }
@@ -99,41 +83,12 @@ class PreviewAdapter(
                 viewHolder1.binding1.textViewTempMax.text = "H:" + header?.tempMax
                 viewHolder1.binding1.textViewTempMin.text = "L:" + header?.tempMin
 
-                if (KEY_STATE == VALUE_STATE_DETAIL_MODE) {
-                    viewHolder1.binding1.textViewAdd.visibility = View.INVISIBLE
-                    viewHolder1.binding1.textViewCancel.visibility = View.INVISIBLE
-                } else {
-//                    viewHolder1.binding1.textViewAdd.setOnClickListener {
-//                        val sh = SharedPreferencesManager(context)
-////                        sh.saveCityResponse(header?.cityName.toString(), cityResponse!!)
-//                        sh.saveCityName(header?.cityName.toString(), header?.cityName.toString())
+//                if (KEY_STATE == VALUE_STATE_DETAIL_MODE) {
+//                    viewHolder1.binding1.textViewAdd.visibility = View.INVISIBLE
+//                    viewHolder1.binding1.textViewCancel.visibility = View.INVISIBLE
+//                } else {
 //
-////                        val intent = Intent(context, MainActivity::class.java)
-////                        viewHolder1.binding1.textViewAdd.context.startActivity(intent)
-//
-//                    }
-
-                    viewHolder1.binding1.textViewAdd.setOnClickListener {
-                            view ->
-
-                        val sh = SharedPreferencesManager(context)
-                        sh.saveCityName(header?.cityName.toString(), header?.cityName.toString())
-
-//
-//                        view.findNavController().navigate(PreviewFragmentDirections.actionPreviewFragmentToBriefFragment())
-
-                        view.findNavController().navigateUp()
-                    }
-
-                    viewHolder1.binding1.textViewCancel.setOnClickListener {
-                            view ->
-//                        view.findNavController().navigate(PreviewFragmentDirections.actionPreviewFragmentToBriefFragment())
-                        view.findNavController().navigateUp()
-
-//                        val intent = Intent(context, MainActivity::class.java)
-//                        viewHolder1.binding1.textViewCancel.context.startActivity(intent)
-                    }
-                }
+//                }
 
             }
 

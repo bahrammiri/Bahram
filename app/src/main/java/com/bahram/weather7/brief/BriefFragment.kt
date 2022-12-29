@@ -40,13 +40,14 @@ class BriefFragment : Fragment() {
 
         }
 
+
         viewModel = ViewModelProvider(requireActivity()).get(BriefViewModel::class.java)
 
         viewModel.isLoading.observe(viewLifecycleOwner) {
             if (it == true) {
-                binding.progressBar.visibility = View.VISIBLE
+                binding.progressBarBrief.visibility = View.VISIBLE
             } else {
-                binding.progressBar.visibility = View.GONE
+                binding.progressBarBrief.visibility = View.GONE
             }
 
         }
@@ -62,7 +63,9 @@ class BriefFragment : Fragment() {
             val briefAdapter = BriefAdapter(requireContext(), viewModel.citiesItems.value)
             binding.recyclerViewBrief.adapter = briefAdapter
             binding.recyclerViewBrief.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+
         }
+
 
         viewModel.start(requireContext())
 
