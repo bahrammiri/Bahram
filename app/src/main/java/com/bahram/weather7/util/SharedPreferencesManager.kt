@@ -27,6 +27,10 @@ class SharedPreferencesManager(context: Context) {
         return cityString.toString()
     }
 
+    fun removeCityName(cityNameKey: String) {
+        sharedPreferences.edit().remove(cityNameKey).apply()
+    }
+
     fun loadCities(): ArrayList<CityName> {
         val arrayList = ArrayList<CityName>()
         sharedPreferences.all.forEach {

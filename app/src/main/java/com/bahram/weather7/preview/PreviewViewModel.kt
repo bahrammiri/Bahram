@@ -14,6 +14,8 @@ import retrofit2.Response
 class PreviewViewModel : ViewModel() {
 
     var cityItems = MutableLiveData<ArrayList<CityItem>>()
+    val errorMessage = MutableLiveData<String>("")
+
 
     fun loadCityItems(cityNameInputted: String) {
         RetrofitService.getInstance()
@@ -27,10 +29,14 @@ class PreviewViewModel : ViewModel() {
                     val responseBody = response.body()
                     if (responseBody != null) {
                         cityItems.value = WeatherResponseItemMapper.loadCityItems(responseBody)
+                    } else {
+                        errorMessage.value = response.errorBody().toString()
                     }
                 }
 
                 override fun onFailure(call: Call<WeatherResponse>, t: Throwable) {
+
+
                 }
             })
     }

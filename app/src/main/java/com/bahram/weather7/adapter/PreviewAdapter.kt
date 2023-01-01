@@ -122,6 +122,12 @@ class PreviewAdapter(
         }
     }
 
+    fun removeAt(position: Int) {
+        cityItems?.removeAt(position)
+        notifyItemRemoved(position)
+    }
+
+
 }
 
 

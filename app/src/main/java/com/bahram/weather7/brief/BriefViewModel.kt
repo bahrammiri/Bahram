@@ -26,6 +26,19 @@ class BriefViewModel : ViewModel() {
         loadCitiesItems(cities)
     }
 
+    fun removeCityFromCitiesItems(position: Int, context: Context) {
+        val cityItem = citiesItems.value?.get(position)
+        val cityName = (cityItem?.cityItems?.getOrNull(0)?.item as Header).cityName.toString()
+
+        val sh = SharedPreferencesManager(context)
+        sh.removeCityName(cityName)
+
+        citiesItems.value?.removeAt(position)
+        citiesItems.value = citiesItems.value
+
+    }
+
+
     fun loadCitiesItems(cities: List<SharedPreferencesManager.CityName>) {
 
         val citiesItems = ArrayList<CityItems>()
@@ -47,13 +60,15 @@ class BriefViewModel : ViewModel() {
                             if (responseBody != null) {
                                 citiesItems.add(CityItems(WeatherResponseItemMapper.loadCityItems(responseBody)))
 
-
-                                if (citiesItems.size == cities.size) {
-                                    isLoading.value = false
-                                }
                                 citiesItems.sortBy {
                                     (it.cityItems.getOrNull(0)?.item as Header).cityName
                                 }
+                                if (citiesItems.size == cities.size) {
+                                    isLoading.value = false
+                                }
+
+
+
 
                                 this@BriefViewModel.citiesItems.value = citiesItems
                             }

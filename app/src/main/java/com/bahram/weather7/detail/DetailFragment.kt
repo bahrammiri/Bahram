@@ -45,11 +45,11 @@ class DetailFragment : Fragment() {
         viewModel.isLoading.observe(viewLifecycleOwner) {
             if (it == true) {
                 binding.progressBarDetail.visibility = View.VISIBLE
-                binding.viewPager2.visibility= View.GONE
+                binding.viewPager2.visibility = View.GONE
 
             } else {
                 binding.progressBarDetail.visibility = View.GONE
-                binding.viewPager2.visibility= View.VISIBLE
+                binding.viewPager2.visibility = View.VISIBLE
             }
         }
 
